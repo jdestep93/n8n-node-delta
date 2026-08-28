@@ -8,6 +8,9 @@ export default defineConfig({
       '@nodedelta/core': fileURLToPath(
         new URL('./packages/core/src/index.ts', import.meta.url),
       ),
+      '@nodedelta/n8n-adapter': fileURLToPath(
+        new URL('./packages/n8n-adapter/src/index.ts', import.meta.url),
+      ),
     },
   },
   test: {

@@ -10,11 +10,6 @@ None as of 2026-08-28.
 
 ## Implementation-state notes
 
-- The T01 manifest shell statically injects on n8n Cloud and declares only the
-  `storage` extension permission. T06 will implement the specified self-hosted
-  user-gesture permission/injection lifecycle and reconcile final
-  `activeTab`/`scripting` needs. This is staged implementation, not an accepted
-  V1 deviation.
 - The architecture references Dexie, semantic diff UI dependencies, Docker n8n,
   and release-grade packaging that are completed by later tickets. Documentation
   describes those as V1 contracts and labels unverified state.

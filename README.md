@@ -11,7 +11,9 @@ JSON patch.
 > currently contains the Manifest V3 extension shell, package contracts, the
 > read-only n8n editor adapter, the workflow normalizer (canonicalization and
 > hashing), the semantic diff engine with golden tests, versioned local snapshot
-> storage and its manual save pipeline, build, and baseline tests. The complete
+> storage and its manual save pipeline, the extension lifecycle with the
+> user-gesture permission and injection flow (T06), build, and baseline tests.
+> The complete
 > review UI claims below describe the V1 target and must not be treated as
 > released features until the release checklist and
 > [compatibility evidence](docs/compatibility.md) pass.
@@ -103,12 +105,13 @@ back to n8n. Full policy and data-lifecycle details are in
 
 ## Permissions
 
-The current manifest requests `storage`, required Cloud host access for
-`https://*.app.n8n.cloud/*`, and optional `http://*/*` / `https://*/*` host
-access for user-approved self-hosted sites. T06 will add the final user-gesture
-permission and injection flow and must update this section if the reviewed
-manifest changes. NodeDelta must never request `<all_urls>` as a required host
-permission.
+The manifest requests `storage`, `activeTab`, and `scripting`, required Cloud
+host access for `https://*.app.n8n.cloud/*`, and optional `http://*/*` /
+`https://*/*` host access for user-approved self-hosted sites. n8n Cloud is
+injected through the declared content script. Any other origin is enabled only
+by an explicit user gesture in the toolbar popup, which requests that exact
+origin from the browser and registers the content script for it. NodeDelta must
+never request `<all_urls>` as a required host permission.
 
 ## Architecture
 

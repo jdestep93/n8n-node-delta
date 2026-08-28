@@ -1,39 +1,58 @@
+import type { ContentRequest, ContentStatus } from '../messages.js';
+import { createBrowserWorkflowLoader } from './browser-adapter.js';
+import { startNodeDeltaContent } from './runtime.js';
 import { getWorkflowId } from './workflow-route.js';
 
-const shellHostId = 'nodedelta-extension-shell';
+const runtimeWindow = window as Window & {
+  __nodeDeltaContentStop__?: () => void;
+  __nodeDeltaMessageListenerInstalled__?: boolean;
+};
 
-function mountShell(): void {
-  if (document.getElementById(shellHostId) !== null) return;
+if (runtimeWindow.__nodeDeltaContentStop__ === undefined) {
+  const workflowNames = new Map<string, string>();
+  const adapter = createBrowserWorkflowLoader(window);
+  const loader = {
+    getWorkflow: async (workflowId: string) => {
+      const workflow = await adapter.getWorkflow(workflowId);
+      workflowNames.set(workflowId, workflow.name);
+      return workflow;
+    },
+  };
+  runtimeWindow.__nodeDeltaContentStop__ = startNodeDeltaContent({
+    targetWindow: window,
+    loader,
+  });
 
-  const workflowId = getWorkflowId(new URL(window.location.href));
-  if (workflowId === undefined) return;
-
-  const host = document.createElement('div');
-  host.id = shellHostId;
-  host.style.position = 'fixed';
-  host.style.right = '20px';
-  host.style.bottom = '20px';
-  host.style.zIndex = '2147483647';
-
-  const shadow = host.attachShadow({ mode: 'open' });
-  const launcher = document.createElement('button');
-  launcher.type = 'button';
-  launcher.textContent = 'NodeDelta detected this workflow.';
-  launcher.title = `Open NodeDelta for workflow ${workflowId}`;
-  launcher.style.cssText = [
-    'all: initial',
-    'background: #171717',
-    'border: 1px solid #404040',
-    'border-radius: 999px',
-    'box-shadow: 0 8px 28px rgb(0 0 0 / 25%)',
-    'color: #fafafa',
-    'cursor: pointer',
-    'font: 600 13px/1.2 system-ui, sans-serif',
-    'padding: 12px 16px',
-  ].join(';');
-
-  shadow.append(launcher);
-  document.documentElement.append(host);
+  if (runtimeWindow.__nodeDeltaMessageListenerInstalled__ !== true) {
+    chrome.runtime.onMessage.addListener(
+      (message: unknown, _sender, sendResponse) => {
+        if (
+          typeof message !== 'object' ||
+          message === null ||
+          !('type' in message)
+        ) {
+          return false;
+        }
+        const request = message as ContentRequest;
+        if (request.type === 'NODE_DELTA_OPEN_PANEL') {
+          window.dispatchEvent(new Event('nodedelta:open'));
+          sendResponse({ ok: true });
+          return false;
+        }
+        if (request.type === 'NODE_DELTA_GET_CONTENT_STATUS') {
+          const workflowId = getWorkflowId(new URL(window.location.href));
+          sendResponse({
+            workflowId,
+            workflowName:
+              workflowId === undefined
+                ? undefined
+                : workflowNames.get(workflowId),
+          } satisfies ContentStatus);
+          return false;
+        }
+        return false;
+      },
+    );
+    runtimeWindow.__nodeDeltaMessageListenerInstalled__ = true;
+  }
 }
-
-mountShell();

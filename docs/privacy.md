@@ -51,8 +51,13 @@ the browser can grant only a site the user enables. Host permission paths are a
 browser-manifest capability boundary; NodeDelta must request and persist only the
 exact origin selected by the user.
 
-The final permission workflow lands in T06. This policy and the README must be
-updated if the reviewed manifest changes.
+The implemented permission workflow keeps this boundary: n8n Cloud is injected
+through the declared `https://*.app.n8n.cloud/*` content script, and any other
+origin is enabled only when the user approves that exact origin from the
+toolbar popup. `activeTab` makes the active tab's URL visible for
+classification, and `scripting` registers the content script only for origins
+the user approved. The extension requests no permissions beyond this flow and
+never requests `<all_urls>` as a required host permission.
 
 ## Security behavior
 

@@ -16,6 +16,9 @@ describe('workflow route detection shell', () => {
   it.each([
     'https://example.app.n8n.cloud/home/workflows',
     'https://n8n.example.com/n8n/executions/7',
+    'https://example.app.n8n.cloud/workflow/new',
+    'https://example.app.n8n.cloud/workflow/generated-id?new=true',
+    'https://example.app.n8n.cloud/workflow/%E0%A4%A',
   ])('does not identify non-workflow route %s', (url) => {
     expect(getWorkflowId(new URL(url))).toBeUndefined();
   });

@@ -8,22 +8,21 @@ const extensionRoot = fileURLToPath(new URL('.', import.meta.url));
 
 export default defineConfig({
   root: resolve(extensionRoot, 'src'),
-  publicDir: resolve(extensionRoot, 'public'),
+  publicDir: false,
   define: { 'process.env.NODE_ENV': JSON.stringify('production') },
   plugins: [react()],
   build: {
-    emptyOutDir: true,
+    emptyOutDir: false,
+    minify: 'esbuild',
     outDir: resolve(extensionRoot, '../../dist/chrome'),
+    lib: {
+      entry: resolve(extensionRoot, 'src/content/index.ts'),
+      formats: ['iife'],
+      name: 'NodeDeltaContent',
+      fileName: () => 'assets/content.js',
+    },
     rollupOptions: {
-      input: {
-        background: resolve(extensionRoot, 'src/background/index.ts'),
-        popup: resolve(extensionRoot, 'src/popup/index.html'),
-      },
-      output: {
-        assetFileNames: 'assets/[name][extname]',
-        chunkFileNames: 'assets/[name]-[hash].js',
-        entryFileNames: 'assets/[name].js',
-      },
+      output: { inlineDynamicImports: true },
     },
   },
 });
