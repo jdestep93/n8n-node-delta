@@ -2,11 +2,12 @@
 
 ## Status and goals
 
-This document defines the V1 architecture. At ticket T11, the workspace and
-domain contracts exist, while the adapter, normalizer, snapshot repository,
-semantic engine, full extension lifecycle, and review UI are implemented by
-later tickets. Those tickets must update any implementation-state notes here
-when their code lands.
+This document defines the V1 architecture. The workspace, domain contracts,
+editor REST adapter (T02), and normalizer with canonicalization and hashing
+(T03) are implemented, each with Node-testable tests and synthetic fixtures.
+The snapshot repository, semantic engine, full extension lifecycle, and review
+UI are implemented by later tickets. Those tickets must update any
+implementation-state notes here when their code lands.
 
 FlowDiff has no backend. It runs at the n8n page/extension boundary, reads the
 current workflow from the same n8n origin with the user's existing session,
