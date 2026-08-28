@@ -10,10 +10,11 @@ JSON patch.
 > **Implementation status:** V1 is under active development. The repository
 > currently contains the Manifest V3 extension shell, package contracts, the
 > read-only n8n editor adapter, the workflow normalizer (canonicalization and
-> hashing), the semantic diff engine with golden tests, build, and baseline
-> tests. The snapshot and complete review UI claims below describe the V1
-> target and must not be treated as released features until the release
-> checklist and [compatibility evidence](docs/compatibility.md) pass.
+> hashing), the semantic diff engine with golden tests, versioned local snapshot
+> storage and its manual save pipeline, build, and baseline tests. The complete
+> review UI claims below describe the V1 target and must not be treated as
+> released features until the release checklist and
+> [compatibility evidence](docs/compatibility.md) pass.
 
 NodeDelta is an independent open-source project and is not affiliated with or
 endorsed by n8n.

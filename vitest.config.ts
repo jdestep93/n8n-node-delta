@@ -12,6 +12,7 @@ export default defineConfig({
   },
   test: {
     coverage: { provider: 'v8', reporter: ['text', 'html'] },
+    setupFiles: ['./packages/snapshot-store/tests/setup-indexeddb.ts'],
     include: [
       'packages/**/*.test.ts',
       'apps/**/*.test.ts',
