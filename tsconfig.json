@@ -1,0 +1,14 @@
+{
+  "files": [],
+  "references": [
+    { "path": "packages/core" },
+    { "path": "packages/n8n-adapter" },
+    { "path": "packages/n8n-normalizer" },
+    { "path": "packages/diff-engine" },
+    { "path": "packages/snapshot-store" },
+    { "path": "packages/diff-ui" },
+    { "path": "packages/test-fixtures" },
+    { "path": "apps/extension" },
+    { "path": "tsconfig.tools.json" }
+  ]
+}
