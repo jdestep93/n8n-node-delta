@@ -12,8 +12,8 @@ JSON patch.
 > read-only n8n editor adapter, the workflow normalizer (canonicalization and
 > hashing), the semantic diff engine with golden tests, versioned local snapshot
 > storage and its manual save pipeline, the extension lifecycle with the
-> user-gesture permission and injection flow (T06), build, and baseline tests.
-> The complete
+> user-gesture permission and injection flow (T06), the reusable semantic
+> review components (T07), build, and baseline tests. The complete
 > review UI claims below describe the V1 target and must not be treated as
 > released features until the release checklist and
 > [compatibility evidence](docs/compatibility.md) pass.
