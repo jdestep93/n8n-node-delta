@@ -14,6 +14,15 @@ export default defineConfig({
       '@nodedelta/diff-engine': fileURLToPath(
         new URL('./packages/diff-engine/src/index.ts', import.meta.url),
       ),
+      '@nodedelta/diff-ui': fileURLToPath(
+        new URL('./packages/diff-ui/src/index.ts', import.meta.url),
+      ),
+      '@nodedelta/n8n-normalizer': fileURLToPath(
+        new URL('./packages/n8n-normalizer/src/index.ts', import.meta.url),
+      ),
+      '@nodedelta/snapshot-store': fileURLToPath(
+        new URL('./packages/snapshot-store/src/index.ts', import.meta.url),
+      ),
     },
   },
   test: {
@@ -23,6 +32,7 @@ export default defineConfig({
       'packages/**/*.test.ts',
       'packages/**/*.test.tsx',
       'apps/**/*.test.ts',
+      'apps/**/*.test.tsx',
       'scripts/**/*.test.mjs',
     ],
   },

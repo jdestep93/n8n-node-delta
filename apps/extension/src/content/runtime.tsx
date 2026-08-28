@@ -1,8 +1,16 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createRoot, type Root } from 'react-dom/client';
+import { SemanticWorkflowDiffer } from '@nodedelta/diff-engine';
+import { N8nWorkflowNormalizer } from '@nodedelta/n8n-normalizer';
+import { StorageUnavailableError } from '@nodedelta/core';
 
 import { observeNavigation } from './navigation-observer.js';
 import { NodeDeltaApp, type WorkflowLoader } from './node-delta-app.js';
+import {
+  defaultPreferences,
+  type PreferenceRepository,
+  type WorkspaceServices,
+} from './workspace-store.js';
 import { contentStyles } from './styles.js';
 import { getWorkflowId } from './workflow-route.js';
 
@@ -12,7 +20,9 @@ export const NODE_DELTA_HOST_ID = 'nodedelta-extension-shell';
 
 interface ContentRuntimeOptions {
   targetWindow: Window;
-  loader: WorkflowLoader;
+  loader?: WorkflowLoader;
+  services?: WorkspaceServices;
+  preferences?: PreferenceRepository;
 }
 
 interface MountedShell {
@@ -36,7 +46,15 @@ function createShell(targetDocument: Document): MountedShell {
 export function startNodeDeltaContent({
   targetWindow,
   loader,
+  services,
+  preferences,
 }: ContentRuntimeOptions): () => void {
+  const workspaceServices =
+    services ?? createLoaderWorkspaceServices(targetWindow, loader);
+  const preferenceRepository = preferences ?? {
+    load: defaultPreferences,
+    save: () => undefined,
+  };
   let mounted: MountedShell | undefined;
   let workflowId: string | undefined;
   let openRequest = 0;
@@ -54,8 +72,9 @@ export function startNodeDeltaContent({
     mounted.root.render(
       <NodeDeltaApp
         key={workflowId}
-        loader={loader}
         openRequest={openRequest}
+        preferences={preferenceRepository}
+        services={workspaceServices}
         workflowId={workflowId}
       />,
     );
@@ -99,5 +118,26 @@ export function startNodeDeltaContent({
     stopObserving();
     targetWindow.removeEventListener('nodedelta:open', openPanel);
     unmount();
+  };
+}
+
+function createLoaderWorkspaceServices(
+  targetWindow: Window,
+  loader: WorkflowLoader | undefined,
+): WorkspaceServices {
+  if (loader === undefined) {
+    throw new Error('NodeDelta content requires workspace services.');
+  }
+  const normalizer = new N8nWorkflowNormalizer();
+  const differ = new SemanticWorkflowDiffer();
+  return {
+    getInstanceId: () => Promise.resolve(targetWindow.location.origin),
+    loadCurrent: async (workflowId) =>
+      normalizer.normalize(await loader.getWorkflow(workflowId)),
+    listSnapshots: () => Promise.resolve([]),
+    saveSnapshot: () => Promise.reject(new StorageUnavailableError()),
+    renameSnapshot: () => Promise.reject(new StorageUnavailableError()),
+    deleteSnapshot: () => Promise.reject(new StorageUnavailableError()),
+    diff: (before, after) => differ.diff(before, after),
   };
 }

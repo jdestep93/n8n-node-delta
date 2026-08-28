@@ -1,6 +1,9 @@
 import type { ContentRequest, ContentStatus } from '../messages.js';
-import { createBrowserWorkflowLoader } from './browser-adapter.js';
 import { startNodeDeltaContent } from './runtime.js';
+import {
+  createBrowserWorkspaceServices,
+  createLocalStoragePreferenceRepository,
+} from './workspace-services.js';
 import { getWorkflowId } from './workflow-route.js';
 
 const runtimeWindow = window as Window & {
@@ -10,17 +13,19 @@ const runtimeWindow = window as Window & {
 
 if (runtimeWindow.__nodeDeltaContentStop__ === undefined) {
   const workflowNames = new Map<string, string>();
-  const adapter = createBrowserWorkflowLoader(window);
-  const loader = {
-    getWorkflow: async (workflowId: string) => {
-      const workflow = await adapter.getWorkflow(workflowId);
+  const baseServices = createBrowserWorkspaceServices(window);
+  const services = {
+    ...baseServices,
+    loadCurrent: async (workflowId: string) => {
+      const workflow = await baseServices.loadCurrent(workflowId);
       workflowNames.set(workflowId, workflow.name);
       return workflow;
     },
   };
   runtimeWindow.__nodeDeltaContentStop__ = startNodeDeltaContent({
     targetWindow: window,
-    loader,
+    services,
+    preferences: createLocalStoragePreferenceRepository(window.localStorage),
   });
 
   if (runtimeWindow.__nodeDeltaMessageListenerInstalled__ !== true) {

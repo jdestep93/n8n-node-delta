@@ -147,13 +147,16 @@ describe('NodeDelta content lifecycle', () => {
     });
 
     await eventually(() =>
-      expect(shell()?.querySelector('button')?.textContent).toBe('Unavailable'),
+      expect(shell()?.querySelector('button')?.textContent).toBe('Diff'),
     );
     shell()?.querySelector('button')?.click();
     await eventually(() =>
       expect(shell()?.textContent).toContain(
         "You don't have access to read this workflow in n8n.",
       ),
+    );
+    expect(shell()?.querySelector('.launcher')?.textContent).toBe(
+      'Unavailable',
     );
     stop();
   });
