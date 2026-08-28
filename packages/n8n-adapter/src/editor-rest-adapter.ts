@@ -14,6 +14,10 @@ import { z } from 'zod';
 
 import { detectN8nContext, type N8nContext } from './context.js';
 
+// Manifest V3 disallows dynamic code generation. Zod's interpreter mode keeps
+// validation compatible with that CSP instead of probing/using Function().
+z.config({ jitless: true });
+
 export interface N8nAdapterEnvironment {
   currentUrl(): URL;
   basePathScriptUrls(): readonly string[];

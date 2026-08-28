@@ -17,7 +17,30 @@ h1 {
   margin: 0 0 12px;
 }
 
+h2 {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
 p,
 small {
   line-height: 1.5;
+}
+
+button {
+  background: #171717;
+  border: 0;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+  font:
+    600 13px/1 system-ui,
+    sans-serif;
+  margin: 4px 0 14px;
+  padding: 10px 14px;
+}
+
+small {
+  color: #737373;
+  display: block;
 }

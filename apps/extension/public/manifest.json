@@ -20,7 +20,7 @@
   ],
   "host_permissions": ["https://*.app.n8n.cloud/*"],
   "optional_host_permissions": ["http://*/*", "https://*/*"],
-  "permissions": ["storage"],
+  "permissions": ["activeTab", "scripting", "storage"],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   }
