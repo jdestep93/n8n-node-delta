@@ -1,5 +1,13 @@
-export type { ChangeCategory, ChangeEntry } from './changes-model.js';
-export { SUMMARY_CHIP_LABELS, createChangeEntries } from './changes-model.js';
+export type {
+  ChangeCategory,
+  ChangeEntry,
+  DiffFilter,
+} from './changes-model.js';
+export {
+  SUMMARY_CHIP_LABELS,
+  createChangeEntries,
+  matchesChangeFilter,
+} from './changes-model.js';
 export {
   ChangeDetail,
   type ChangeDetailProps,

@@ -8,6 +8,8 @@ import type {
 } from '@nodedelta/core';
 
 export type ChangeCategory = 'node' | 'connection' | 'workflow';
+export type DiffFilter =
+  'all' | 'added' | 'removed' | 'modified' | 'moved' | 'connections';
 
 export interface ChangeEntry {
   id: string;
@@ -16,6 +18,8 @@ export interface ChangeEntry {
   title: string;
   detail?: string;
   searchText: string;
+  filterKinds: readonly DiffFilter[];
+  nodeId?: string | undefined;
   nodeChange?: NodeChange;
   connectionChange?: ConnectionChange;
   valueChange?: ValueChange;
@@ -79,6 +83,23 @@ function nodeEntry(change: NodeChange, index: number): ChangeEntry {
       break;
   }
   const type = change.after?.type ?? change.before?.type;
+  const hasMovement = change.changes.some(
+    (valueChange) =>
+      valueChange.path === 'position.x' || valueChange.path === 'position.y',
+  );
+  const hasModification = change.changes.some(
+    (valueChange) =>
+      valueChange.path !== 'name' &&
+      valueChange.path !== 'position.x' &&
+      valueChange.path !== 'position.y',
+  );
+  const filterKinds: DiffFilter[] = [
+    change.kind === 'renamed' ? 'modified' : change.kind,
+  ];
+  if (hasMovement && !filterKinds.includes('moved')) filterKinds.push('moved');
+  if (hasModification && !filterKinds.includes('modified')) {
+    filterKinds.push('modified');
+  }
   const searchText = [
     title,
     detail,
@@ -92,6 +113,12 @@ function nodeEntry(change: NodeChange, index: number): ChangeEntry {
     id: `node-${index}`,
     category: 'node',
     kind: change.kind,
+    filterKinds,
+    nodeId:
+      change.after?.id ??
+      change.before?.id ??
+      change.after?.name ??
+      change.before?.name,
     ...(detail === undefined ? {} : { detail }),
     title,
     searchText,
@@ -110,6 +137,7 @@ function connectionEntry(change: ConnectionChange, index: number): ChangeEntry {
     id: `connection-${index}`,
     category: 'connection',
     kind: change.kind,
+    filterKinds: ['connections'],
     title,
     detail,
     searchText,
@@ -123,10 +151,18 @@ function workflowEntry(change: ValueChange, index: number): ChangeEntry {
     id: `workflow-${index}`,
     category: 'workflow',
     kind: change.kind,
+    filterKinds: ['modified'],
     title,
     searchText: title.toLowerCase(),
     valueChange: change,
   };
+}
+
+export function matchesChangeFilter(
+  entry: ChangeEntry,
+  filter: DiffFilter,
+): boolean {
+  return filter === 'all' || entry.filterKinds.includes(filter);
 }
 
 export function createChangeEntries(diff: WorkflowDiff): ChangeEntry[] {

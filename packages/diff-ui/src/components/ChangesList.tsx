@@ -9,6 +9,8 @@ export interface ChangesListProps {
 }
 
 function badgeLabel(entry: ChangeEntry): string {
+  if (entry.category === 'connection') return `Connection ${entry.kind}`;
+  if (entry.category === 'workflow') return 'Workflow';
   return entry.kind.charAt(0).toUpperCase() + entry.kind.slice(1);
 }
 

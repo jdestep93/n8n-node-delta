@@ -5,6 +5,11 @@ export const diffUiStyles = `
 .nd-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .nd-chip { background: #f5f5f5; border: 1px solid #d4d4d4; border-radius: 999px; font-size: 12px; padding: 2px 10px; }
 .nd-chip strong { font-weight: 700; }
+.nd-summary-nodesAdded { border-color: #22c55e; }
+.nd-summary-nodesRemoved { border-color: #ef4444; }
+.nd-summary-nodesModified, .nd-summary-nodesRenamed { border-color: #f59e0b; }
+.nd-summary-nodesMoved { border-color: #3b82f6; }
+.nd-summary-connectionsAdded, .nd-summary-connectionsRemoved { border-color: #a855f7; }
 .nd-search { background: #fff; border: 1px solid #d4d4d4; border-radius: 8px; font: inherit; padding: 7px 10px; width: 100%; }
 .nd-count { color: #737373; font-size: 12px; margin: 2px 0 0; }
 .nd-list { display: flex; flex-direction: column; gap: 4px; list-style: none; margin: 0; max-height: 240px; overflow-y: auto; padding: 0; }
@@ -24,6 +29,8 @@ export const diffUiStyles = `
 .nd-title { overflow-wrap: anywhere; }
 .nd-item-detail { color: #737373; font-size: 12px; overflow-wrap: anywhere; }
 .nd-detail-pane { border-top: 1px solid #d4d4d4; display: flex; flex-direction: column; gap: 10px; padding-top: 10px; }
+.nd-inspector-section { display: flex; flex-direction: column; gap: 8px; }
+.nd-inspector-heading { font-size: 12px; margin: 0; text-transform: uppercase; letter-spacing: .04em; }
 .nd-values { display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 0; padding: 0; }
 .nd-value { display: flex; flex-direction: column; gap: 4px; }
 .nd-value-head { align-items: center; display: flex; gap: 8px; justify-content: space-between; }
