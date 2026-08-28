@@ -116,7 +116,11 @@ async function openCurrentTab(): Promise<void> {
   const tab = await getActiveTab();
   if (tab?.id === undefined)
     throw new Error('No active browser tab was found.');
-  await chrome.tabs.sendMessage(tab.id, { type: 'NODE_DELTA_OPEN_PANEL' });
+  try {
+    await chrome.tabs.sendMessage(tab.id, { type: 'NODE_DELTA_OPEN_PANEL' });
+  } catch {
+    throw new Error('Reload the n8n workflow page, then open NodeDelta again.');
+  }
 }
 
 async function handleRequest(
