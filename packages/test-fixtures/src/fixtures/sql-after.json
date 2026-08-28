@@ -1,0 +1,26 @@
+{
+  "id": "fixture-sql",
+  "name": "SQL",
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "name": "When clicking Test workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {}
+    },
+    {
+      "id": "sql-1",
+      "name": "Find customer",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 1,
+      "position": [240, 0],
+      "parameters": {
+        "query": "SELECT id, name, email FROM customers WHERE id = $1;"
+      }
+    }
+  ],
+  "connections": {},
+  "settings": { "executionOrder": "v1" }
+}

@@ -145,6 +145,10 @@ importers:
       '@flowdiff/core':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
+      prettier:
+        specifier: ^3.6.2
+        version: 3.9.6
 
 packages:
 

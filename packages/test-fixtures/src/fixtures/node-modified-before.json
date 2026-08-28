@@ -1,0 +1,39 @@
+{
+  "id": "fixture-node-modified",
+  "name": "Node modified",
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "name": "When clicking Test workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {}
+    },
+    {
+      "id": "request-1",
+      "name": "Fetch customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [240, 0],
+      "parameters": {
+        "method": "GET",
+        "enabled": false,
+        "retries": 0,
+        "label": "",
+        "expression": "={{ $json.customerId }}",
+        "values": ["first", { "z": 3, "a": 1 }]
+      },
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "credential-1",
+          "name": "Production API",
+          "secret": "must-not-be-preserved"
+        }
+      },
+      "communityField": { "supported": true }
+    }
+  ],
+  "connections": {},
+  "settings": { "executionOrder": "v1" }
+}
