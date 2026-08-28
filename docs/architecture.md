@@ -4,12 +4,14 @@
 
 This document defines the V1 architecture. The workspace, domain contracts,
 editor REST adapter (T02), normalizer with canonicalization and hashing (T03),
-the browser-independent semantic diff engine (T05), and the versioned IndexedDB
-snapshot repository and manual snapshot pipeline (T04) are implemented. They
-have Node-testable contracts, including fake-IndexedDB close/reopen, migration,
-isolation, deduplication, retention, and safe storage-error coverage. The full
-extension lifecycle and review UI are implemented by later tickets. Those
-tickets must update any implementation-state notes here when their code lands.
+the browser-independent semantic diff engine (T05), the versioned IndexedDB
+snapshot repository and manual snapshot pipeline (T04), and the extension
+lifecycle with per-origin permission management and injection (T06) are
+implemented. They have Node-testable contracts, including fake-IndexedDB
+close/reopen, migration, isolation, deduplication, retention, safe
+storage-error coverage, and content-script lifecycle and permission tests.
+The complete review UI is implemented by later tickets. Those tickets must
+update any implementation-state notes here when their code lands.
 
 NodeDelta has no backend. It runs at the n8n page/extension boundary, reads the
 current workflow from the same n8n origin with the user's existing session,
@@ -50,9 +52,16 @@ isolated content script / Shadow DOM application
 - **Shadow DOM React app:** owns snapshots, comparison state, graph, inspector,
   and escaped read-only presentation. All UI styles stay in this boundary.
 
-The current T01 shell contains a service worker, static Cloud content script,
-simple workflow-route detector, Shadow DOM launcher, and popup. T06 replaces the
-static lifecycle/permission shell with the complete design above.
+The T06 implementation provides this design: the service worker classifies the
+active tab, checks exact-origin permissions, registers the content script for
+user-approved self-hosted origins, and answers toolbar popup requests; the
+isolated content script tracks SPA navigation, loads the current workflow
+through the adapter, mounts the React app inside an open Shadow DOM host, and
+cleans up when the route exits. n8n Cloud is covered by the declared static
+content script; self-hosted origins by registered injection after the user
+enables them. The Shadow DOM app currently loads and presents the current
+workflow; snapshots, comparison state, graph, and inspector land with the
+review-UI tickets.
 
 ## Package responsibilities
 
