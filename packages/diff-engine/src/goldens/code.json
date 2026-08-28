@@ -41,6 +41,7 @@
       "changes": [
         {
           "path": "parameters.jsCode",
+          "kind": "modified",
           "before": "return items;\n",
           "after": "return items.filter((item) => item.json.active);\n"
         }
@@ -48,5 +49,6 @@
     }
   ],
   "connectionChanges": [],
-  "workflowChanges": []
+  "workflowChanges": [],
+  "hasChanges": true
 }

@@ -43,6 +43,7 @@
       "changes": [
         {
           "path": "parameters.text",
+          "kind": "modified",
           "before": "Write a concise support reply for {{ $json.question }}.",
           "after": "Write a warm, concise support reply for {{ $json.question }}."
         }
@@ -50,5 +51,6 @@
     }
   ],
   "connectionChanges": [],
-  "workflowChanges": []
+  "workflowChanges": [],
+  "hasChanges": true
 }

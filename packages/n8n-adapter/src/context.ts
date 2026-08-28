@@ -1,3 +1,5 @@
+import { sha256 } from '@nodedelta/core';
+
 export type N8nRouteType = 'workflow' | 'new-workflow' | 'other';
 
 export interface N8nContextInput {
@@ -125,7 +127,7 @@ export function detectN8nContext(input: N8nContextInput): N8nContext {
     origin: input.url.origin,
     basePath,
     restEndpoint: decodeRestEndpoint(input.restEndpointContent),
-    instanceId: `${input.url.origin}${basePath}`,
+    instanceId: sha256(`${input.url.origin}${basePath}`),
     workflowId: route.workflowId,
     routeType: route.routeType,
   };

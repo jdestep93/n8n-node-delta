@@ -95,6 +95,30 @@ describe('normalizeN8nWorkflow', () => {
     });
   });
 
+  it('preserves safe unknown workflow fields in normalized metadata and hashing', async () => {
+    const raw: RawN8nWorkflow = {
+      name: 'Forward compatible',
+      nodes: [],
+      connections: {},
+      futureWorkflowProperty: { enabled: true, mode: 'safe' },
+      updatedAt: 'volatile',
+    };
+    const normalized = normalizeN8nWorkflow(raw);
+
+    expect(normalized.metadata).toEqual({
+      futureWorkflowProperty: { enabled: true, mode: 'safe' },
+    });
+    expect(JSON.stringify(normalized)).not.toContain('volatile');
+
+    const changed = structuredClone(normalized);
+    changed.metadata = {
+      futureWorkflowProperty: { enabled: false, mode: 'safe' },
+    };
+    await expect(hashWorkflow(changed)).resolves.not.toBe(
+      await hashWorkflow(normalized),
+    );
+  });
+
   it('keeps only safe credential reference fields', () => {
     const normalized = normalizeN8nWorkflow(rawFixture('node-modified-before'));
 

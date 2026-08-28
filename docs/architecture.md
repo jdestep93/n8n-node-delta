@@ -78,8 +78,9 @@ normalizer, or diff engine.
   evaluation, or credential endpoints and never persists cookies or tokens.
 - Workflow strings are rendered as text. They are never evaluated or inserted
   as HTML.
-- Snapshots are partitioned by a stable hash of `origin + basePath` and workflow
-  ID, preventing collisions between n8n installations.
+- Snapshots are partitioned by a stable SHA-256 hash of `origin + basePath` and
+  workflow ID, preventing collisions between n8n installations without exposing
+  the raw origin or path in the persisted instance identifier.
 - No workflow content crosses the n8n origin/extension boundary to a NodeDelta or
   third-party service.
 
@@ -87,17 +88,25 @@ See [privacy.md](privacy.md) for the user-facing policy.
 
 ## Diff engine semantics and performance
 
-The semantic diff engine matches nodes deterministically: stable `id` first,
-then identical names, then a conservative fuzzy rename that requires
-content-identical unmatched nodes on both sides and refuses ambiguous
-matches. `NodeChange.kind` is the primary classification, while the summary
-counts modifications, renames, and movement independently so movement is
-never hidden by other changes. Connection endpoints are remapped through
-detected renames, so renaming a node alone does not create connection churn.
-Changed text values can be classified for specialized read-only rendering
-(JavaScript, Python, SQL, JSON, expressions, plain text) via
-`classifyTextParameter`; n8n expressions are inert strings and are never
-evaluated.
+The semantic diff engine matches nodes progressively and deterministically:
+stable `id` first, then exact type plus name even when IDs differ, then a
+conservative scored fuzzy rename. Fuzzy matching combines parameter,
+neighborhood, position, and name similarity, requires the same node type and a
+threshold score, and refuses ambiguous best matches. `NodeChange.kind` is the
+primary classification, while the summary counts modifications, renames, and
+movement independently so movement is never hidden by other changes.
+Connection endpoints are remapped through detected renames, so renaming a node
+alone does not create connection churn. Object parameter arrays align stable
+rows before reporting insertions, removals, or modifications, avoiding
+index-cascade noise. Every `ValueChange` carries an explicit added, removed, or
+modified kind, and `WorkflowDiff.hasChanges` provides the aggregate state.
+
+Changed text values are classified using parameter path, node type, and value
+shape via `classifyTextValue`, covering plain text, expressions, JavaScript,
+Python, SQL, JSON, HTML, prompts, Markdown, and unknown values. n8n expressions
+are inert strings and are never evaluated. The normalizer preserves safe
+unknown workflow- and node-level fields as canonical metadata while retaining
+an explicit volatile-field denylist.
 
 Golden files for the whole fixture corpus live in
 `packages/diff-engine/src/goldens/` and guard against behavioral drift.

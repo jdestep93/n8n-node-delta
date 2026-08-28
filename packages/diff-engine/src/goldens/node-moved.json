@@ -43,11 +43,13 @@
       "changes": [
         {
           "path": "position.x",
+          "kind": "modified",
           "before": 240,
           "after": 360
         },
         {
           "path": "position.y",
+          "kind": "modified",
           "before": 0,
           "after": 180
         }
@@ -55,5 +57,6 @@
     }
   ],
   "connectionChanges": [],
-  "workflowChanges": []
+  "workflowChanges": [],
+  "hasChanges": true
 }

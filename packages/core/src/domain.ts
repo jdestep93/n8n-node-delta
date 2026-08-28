@@ -68,6 +68,7 @@ export interface NormalizedWorkflow {
   connections: NormalizedConnection[];
   settings: Record<string, unknown>;
   active?: boolean;
+  metadata?: Record<string, unknown>;
 }
 
 export type SnapshotSource = 'manual' | 'future-auto' | 'imported';
@@ -90,6 +91,7 @@ export type NodeChangeKind =
 
 export interface ValueChange {
   path: string;
+  kind: 'added' | 'removed' | 'modified';
   before?: unknown;
   after?: unknown;
 }
@@ -122,4 +124,5 @@ export interface WorkflowDiff {
   nodeChanges: NodeChange[];
   connectionChanges: ConnectionChange[];
   workflowChanges: ValueChange[];
+  hasChanges: boolean;
 }

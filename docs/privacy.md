@@ -22,10 +22,11 @@ call n8n credential endpoints.
 
 Manual workflow snapshots and their labels, hashes, timestamps, schema version,
 instance namespace, and settings are stored locally in browser IndexedDB or
-extension storage. Snapshots are isolated by n8n origin/base path and workflow
-ID. They remain until the user deletes them, retention removes the oldest
-eligible snapshots, browser/extension data is cleared, or the extension is
-uninstalled.
+extension storage. Snapshots are isolated by a SHA-256 instance identifier
+derived from the n8n origin/base path plus workflow ID; the identifier does not
+contain the raw origin or path. They remain until the user deletes them,
+retention removes the oldest eligible snapshots, browser/extension data is
+cleared, or the extension is uninstalled.
 
 NodeDelta does not copy n8n authentication cookies or bearer tokens into extension
 storage.
