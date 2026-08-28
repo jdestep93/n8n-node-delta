@@ -3,10 +3,11 @@
 ## Status and goals
 
 This document defines the V1 architecture. The workspace, domain contracts,
-editor REST adapter (T02), and normalizer with canonicalization and hashing
-(T03) are implemented, each with Node-testable tests and synthetic fixtures.
-The snapshot repository, semantic engine, full extension lifecycle, and review
-UI are implemented by later tickets. Those tickets must update any
+editor REST adapter (T02), normalizer with canonicalization and hashing (T03),
+and the browser-independent semantic diff engine (T05) are implemented, each
+with Node-testable tests, synthetic fixtures, and structural golden diffs for
+the full fixture corpus. The snapshot repository, full extension lifecycle,
+and review UI are implemented by later tickets. Those tickets must update any
 implementation-state notes here when their code lands.
 
 FlowDiff has no backend. It runs at the n8n page/extension boundary, reads the
@@ -83,6 +84,30 @@ normalizer, or diff engine.
   third-party service.
 
 See [privacy.md](privacy.md) for the user-facing policy.
+
+## Diff engine semantics and performance
+
+The semantic diff engine matches nodes deterministically: stable `id` first,
+then identical names, then a conservative fuzzy rename that requires
+content-identical unmatched nodes on both sides and refuses ambiguous
+matches. `NodeChange.kind` is the primary classification, while the summary
+counts modifications, renames, and movement independently so movement is
+never hidden by other changes. Connection endpoints are remapped through
+detected renames, so renaming a node alone does not create connection churn.
+Changed text values can be classified for specialized read-only rendering
+(JavaScript, Python, SQL, JSON, expressions, plain text) via
+`classifyTextParameter`; n8n expressions are inert strings and are never
+evaluated.
+
+Golden files for the whole fixture corpus live in
+`packages/diff-engine/src/goldens/` and guard against behavioral drift.
+Regenerate them deliberately with `UPDATE_GOLDENS=true pnpm test` followed by
+`pnpm format`, and review the diff before committing.
+
+Performance: diffing the 300-node `large-workflow` fixture pair completes in
+well under 1 ms on current developer hardware (measured 2026-08-28, Node 24);
+the test suite enforces a 500 ms guardrail so CI catches regressions long
+before the budget documented here is reached.
 
 ## Dependency direction and future ports
 
