@@ -6,6 +6,7 @@ import type {
   WorkflowDiff,
   WorkflowSnapshot,
 } from '@nodedelta/core';
+import { StorageUnavailableError } from '@nodedelta/core';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
@@ -146,6 +147,59 @@ afterEach(() => {
 });
 
 describe('NodeDelta workspace', () => {
+  it('moves focus into the dialog and closes from Escape immediately after opening', async () => {
+    const { services, preferences } = harness();
+    await renderApp(services, preferences);
+    button('Diff')?.click();
+    await eventually(() =>
+      expect(document.querySelector('[role="dialog"]')).not.toBeNull(),
+    );
+    await eventually(() =>
+      expect(document.activeElement?.getAttribute('aria-label')).toBe(
+        'Close NodeDelta',
+      ),
+    );
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await eventually(() =>
+      expect(document.querySelector('[role="dialog"]')).toBeNull(),
+    );
+  });
+
+  it('does not offer snapshot actions when local storage is unavailable', async () => {
+    const { services, preferences } = harness();
+    services.listSnapshots = () =>
+      Promise.reject(new StorageUnavailableError());
+    await renderApp(services, preferences);
+    button('Diff')?.click();
+    await eventually(() =>
+      expect(document.body.textContent).toContain(
+        "Local snapshot storage isn't available.",
+      ),
+    );
+    expect(button('Save Snapshot')).toBeUndefined();
+    expect(document.body.textContent).toContain(
+      'Snapshot actions are unavailable in this browser.',
+    );
+  });
+
+  it('shows distinct loading states while current workflow and snapshots initialize', async () => {
+    const { services, preferences } = harness();
+    let resolveSnapshots: ((value: WorkflowSnapshot[]) => void) | undefined;
+    services.listSnapshots = () =>
+      new Promise((resolve) => {
+        resolveSnapshots = resolve;
+      });
+    await renderApp(services, preferences);
+    button('Diff')?.click();
+    await eventually(() =>
+      expect(document.body.textContent).toContain('Loading snapshots…'),
+    );
+    resolveSnapshots?.([]);
+    await eventually(() =>
+      expect(document.body.textContent).toContain('No snapshots yet'),
+    );
+  });
+
   it('refreshes when opened and presents the save-first empty state with local privacy copy', async () => {
     const { services, preferences } = harness();
     await renderApp(services, preferences);

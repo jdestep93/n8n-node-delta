@@ -11,6 +11,18 @@ export type ChangeCategory = 'node' | 'connection' | 'workflow';
 export type DiffFilter =
   'all' | 'added' | 'removed' | 'modified' | 'moved' | 'connections';
 
+export const DIFF_FILTER_OPTIONS: ReadonlyArray<{
+  value: DiffFilter;
+  label: string;
+}> = [
+  { value: 'all', label: 'All' },
+  { value: 'added', label: 'Added' },
+  { value: 'removed', label: 'Removed' },
+  { value: 'modified', label: 'Modified' },
+  { value: 'moved', label: 'Moved' },
+  { value: 'connections', label: 'Connections' },
+];
+
 export interface ChangeEntry {
   id: string;
   category: ChangeCategory;

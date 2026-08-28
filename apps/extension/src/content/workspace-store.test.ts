@@ -155,6 +155,9 @@ describe('workspace store', () => {
       newest.normalizedWorkflow,
       older.normalizedWorkflow,
     );
+
+    store.getState().setFrom('older');
+    expect(store.getState().comparison.to).toBe('current');
   });
 
   it('reports duplicate saves without creating another row and passes retention', async () => {

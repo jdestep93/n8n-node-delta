@@ -13,7 +13,7 @@ export const contentStyles = `
 button, select, input { font: inherit; }
 button { cursor: pointer; }
 button:focus-visible, select:focus-visible, input:focus-visible { outline: 3px solid #60a5fa; outline-offset: 2px; }
-.panel { background: var(--nd-bg); border: 1px solid var(--nd-border); box-shadow: -12px 0 48px rgb(0 0 0 / 24%); color: var(--nd-text); display: flex; flex-direction: column; height: 100vh; padding: 0; position: fixed; right: 0; top: 0; width: clamp(720px, 80vw, 1440px); z-index: 2147483000; }
+.panel { background: var(--nd-bg); border: 1px solid var(--nd-border); box-shadow: -12px 0 48px rgb(0 0 0 / 24%); color: var(--nd-text); display: flex; flex-direction: column; height: 100vh; padding: 0; position: fixed; right: 0; top: 0; width: 80vw; z-index: 2147483000; }
 .panel-header { align-items: center; border-bottom: 1px solid var(--nd-border); display: flex; gap: 12px; justify-content: space-between; padding: 16px 20px; }
 .panel h2 { font: 700 18px/1.2 system-ui, sans-serif; margin: 0; }
 .workflow-name { color: var(--nd-muted); margin: 4px 0 0; }
@@ -54,9 +54,37 @@ ${diffUiStyles}
 .nodedelta.theme-light .nd-chip, .nodedelta.theme-light .nd-code, .nodedelta.theme-light .nd-node-type code { background: #f5f5f5; border-color: #d4d4d4; }
 .nodedelta.theme-light .nd-search { background: #fff; border-color: #d4d4d4; color: #171717; }
 .nodedelta.theme-light .nd-item-selected { background: #eef4ff; border-color: #93b4f8; }
+.nodedelta.theme-light .nd-item-detail, .nodedelta.theme-light .nd-count, .nodedelta.theme-light .nd-marker, .nodedelta.theme-light .nd-gap { color: #737373; }
+.nodedelta.theme-light .nd-badge { background: #e5e5e5; color: #171717; }
+.nodedelta.theme-light .nd-kind-added { background: #dcfce7; color: #14532d; }
+.nodedelta.theme-light .nd-kind-removed { background: #fee2e2; color: #7f1d1d; }
+.nodedelta.theme-light .nd-kind-modified { background: #fef3c7; color: #78350f; }
+.nodedelta.theme-light .nd-kind-renamed { background: #ede9fe; color: #4c1d95; }
+.nodedelta.theme-light .nd-kind-moved { background: #dbeafe; color: #1e3a8a; }
+.nodedelta.theme-light .nd-kind-expression, .nodedelta.theme-light .nd-kind-javascript, .nodedelta.theme-light .nd-kind-json, .nodedelta.theme-light .nd-kind-python, .nodedelta.theme-light .nd-kind-sql { background: #e0f2fe; color: #0c4a6e; }
+.nodedelta.theme-light .nd-kind-text { background: #e5e5e5; color: #404040; }
+.nodedelta.theme-light .nd-add { background: #dcfce7; }
+.nodedelta.theme-light .nd-del { background: #fee2e2; }
+.nodedelta.theme-light .nd-mark-add { background: #bbf7d0; }
+.nodedelta.theme-light .nd-mark-del { background: #fecaca; }
+.nodedelta.theme-light .nd-detail-pane { border-top-color: #d4d4d4; }
 .nodedelta.theme-dark .nd-report { color: #fafafa; }
 .nodedelta.theme-dark .nd-chip, .nodedelta.theme-dark .nd-code, .nodedelta.theme-dark .nd-node-type code { background: #262626; border-color: #404040; }
 .nodedelta.theme-dark .nd-search { background: #171717; border-color: #404040; color: #fafafa; }
 .nodedelta.theme-dark .nd-item:hover { background: #262626; }
 .nodedelta.theme-dark .nd-item-selected { background: #1e293b; border-color: #3b82f6; }
+.nodedelta.theme-dark .nd-item-detail, .nodedelta.theme-dark .nd-count, .nodedelta.theme-dark .nd-marker, .nodedelta.theme-dark .nd-gap { color: #a3a3a3; }
+.nodedelta.theme-dark .nd-badge { background: #262626; color: #d4d4d4; }
+.nodedelta.theme-dark .nd-kind-added { background: #14532d; color: #dcfce7; }
+.nodedelta.theme-dark .nd-kind-removed { background: #7f1d1d; color: #fee2e2; }
+.nodedelta.theme-dark .nd-kind-modified { background: #78350f; color: #fef3c7; }
+.nodedelta.theme-dark .nd-kind-renamed { background: #4c1d95; color: #ede9fe; }
+.nodedelta.theme-dark .nd-kind-moved { background: #1e3a8a; color: #dbeafe; }
+.nodedelta.theme-dark .nd-kind-expression, .nodedelta.theme-dark .nd-kind-javascript, .nodedelta.theme-dark .nd-kind-json, .nodedelta.theme-dark .nd-kind-python, .nodedelta.theme-dark .nd-kind-sql { background: #0c4a6e; color: #e0f2fe; }
+.nodedelta.theme-dark .nd-kind-text { background: #262626; color: #d4d4d4; }
+.nodedelta.theme-dark .nd-add { background: #14532d; }
+.nodedelta.theme-dark .nd-del { background: #7f1d1d; }
+.nodedelta.theme-dark .nd-mark-add { background: #166534; }
+.nodedelta.theme-dark .nd-mark-del { background: #991b1b; }
+.nodedelta.theme-dark .nd-detail-pane { border-top-color: #404040; }
 `;

@@ -4,6 +4,7 @@ export type {
   DiffFilter,
 } from './changes-model.js';
 export {
+  DIFF_FILTER_OPTIONS,
   SUMMARY_CHIP_LABELS,
   createChangeEntries,
   matchesChangeFilter,

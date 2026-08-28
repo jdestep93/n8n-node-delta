@@ -3,7 +3,7 @@ import type {
   SnapshotRetention,
   WorkflowSnapshot,
 } from '@nodedelta/core';
-import { DiffReport, type DiffFilter } from '@nodedelta/diff-ui';
+import { DIFF_FILTER_OPTIONS, DiffReport } from '@nodedelta/diff-ui';
 import { useEffect, useRef, useState } from 'react';
 import { useStore } from 'zustand';
 
@@ -47,14 +47,22 @@ function EmptySnapshots({ onSave }: { onSave: () => void }): React.JSX.Element {
   );
 }
 
-const FILTERS: ReadonlyArray<{ value: DiffFilter; label: string }> = [
-  { value: 'all', label: 'All' },
-  { value: 'added', label: 'Added' },
-  { value: 'removed', label: 'Removed' },
-  { value: 'modified', label: 'Modified' },
-  { value: 'moved', label: 'Moved' },
-  { value: 'connections', label: 'Connections' },
-];
+function StorageUnavailable({
+  onRefresh,
+}: {
+  onRefresh: () => void;
+}): React.JSX.Element {
+  return (
+    <div className="empty-state">
+      <h3>Snapshot actions are unavailable in this browser.</h3>
+      <p>You can still refresh and inspect the current workflow.</p>
+      <button onClick={onRefresh} type="button">
+        Refresh Current Workflow
+      </button>
+    </div>
+  );
+}
+
 const RETENTIONS: ReadonlyArray<{ value: SnapshotRetention; label: string }> = [
   { value: 'all', label: 'Keep all' },
   { value: 50, label: '50 per workflow' },
@@ -77,18 +85,31 @@ export function NodeDeltaApp({
     dismissedRequest: 0,
   });
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
   const wasOpen = useRef(false);
   const open = openState.manual || openRequest > openState.dismissedRequest;
-
-  useEffect(() => {
-    if (open && !wasOpen.current) void store.getState().open();
-    wasOpen.current = open;
-  }, [open, store]);
 
   const close = (): void => {
     setOpenState({ manual: false, dismissedRequest: openRequest });
     queueMicrotask(() => launcherRef.current?.focus());
   };
+
+  useEffect(() => {
+    if (open && !wasOpen.current) {
+      void store.getState().open();
+      queueMicrotask(() => closeRef.current?.focus());
+    }
+    wasOpen.current = open;
+    if (!open) return;
+    const onKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
+        setOpenState({ manual: false, dismissedRequest: openRequest });
+        queueMicrotask(() => launcherRef.current?.focus());
+      }
+    };
+    document.addEventListener('keydown', onKeyDown);
+    return () => document.removeEventListener('keydown', onKeyDown);
+  }, [open, openRequest, store]);
   const launcherLabel =
     open && state.workflow.status === 'loading'
       ? 'Loading…'
@@ -122,6 +143,7 @@ export function NodeDeltaApp({
               aria-label="Close NodeDelta"
               className="close"
               onClick={close}
+              ref={closeRef}
               type="button"
             >
               Close
@@ -144,6 +166,9 @@ export function NodeDeltaApp({
             {state.workflow.status === 'loading' ? (
               <p role="status">Loading current workflow…</p>
             ) : null}
+            {state.snapshots.status === 'loading' ? (
+              <p role="status">Loading snapshots…</p>
+            ) : null}
             {state.workflow.error === undefined ? null : (
               <p role="alert">{state.workflow.error}</p>
             )}
@@ -159,7 +184,9 @@ export function NodeDeltaApp({
             {state.ui.view === 'compare' &&
             state.workflow.status === 'ready' &&
             state.snapshots.status !== 'loading' ? (
-              state.snapshots.items.length === 0 ? (
+              state.snapshots.status === 'error' ? (
+                <StorageUnavailable onRefresh={() => void state.refresh()} />
+              ) : state.snapshots.items.length === 0 ? (
                 <EmptySnapshots onSave={() => void state.saveSnapshot()} />
               ) : (
                 <div className="compare-view">
@@ -216,7 +243,7 @@ export function NodeDeltaApp({
                     </button>
                   </div>
                   <div aria-label="Change filters" className="filters">
-                    {FILTERS.map(({ value, label }) => (
+                    {DIFF_FILTER_OPTIONS.map(({ value, label }) => (
                       <button
                         aria-pressed={state.ui.filter === value}
                         key={value}
@@ -252,7 +279,9 @@ export function NodeDeltaApp({
             ) : null}
 
             {state.ui.view === 'snapshots' ? (
-              state.snapshots.items.length === 0 ? (
+              state.snapshots.status === 'error' ? (
+                <StorageUnavailable onRefresh={() => void state.refresh()} />
+              ) : state.snapshots.items.length === 0 ? (
                 <EmptySnapshots onSave={() => void state.saveSnapshot()} />
               ) : (
                 <ul className="snapshot-list">

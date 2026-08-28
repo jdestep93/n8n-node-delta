@@ -6,13 +6,12 @@ import type {
   WorkflowSnapshot,
 } from '@nodedelta/core';
 import { StorageQuotaError, StorageUnavailableError } from '@nodedelta/core';
+import type { DiffFilter } from '@nodedelta/diff-ui';
 import { createStore, type StoreApi } from 'zustand/vanilla';
 
 import { getFriendlyWorkflowError } from './friendly-error.js';
 
 export type ThemePreference = 'auto' | 'light' | 'dark';
-export type DiffFilter =
-  'all' | 'added' | 'removed' | 'modified' | 'moved' | 'connections';
 export type ComparisonTarget = string;
 
 export interface WorkspacePreferences {
@@ -332,7 +331,11 @@ export function createWorkspaceStore({
       },
       setFrom: (id) => {
         set((state) => ({
-          comparison: { ...state.comparison, fromSnapshotId: id },
+          comparison: {
+            ...state.comparison,
+            fromSnapshotId: id,
+            to: state.comparison.to === id ? 'current' : state.comparison.to,
+          },
           ui: { ...state.ui, selectedNodeId: undefined },
         }));
         recompute();
