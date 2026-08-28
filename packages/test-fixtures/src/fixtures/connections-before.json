@@ -1,0 +1,47 @@
+{
+  "id": "fixture-connections",
+  "name": "Connections",
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "name": "When clicking Test workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {}
+    },
+    {
+      "id": "request-1",
+      "name": "Fetch customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [240, 0],
+      "parameters": {
+        "method": "GET",
+        "url": "https://example.invalid/customers/1"
+      }
+    },
+    {
+      "id": "branch-1",
+      "name": "Route customer",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [480, 0],
+      "parameters": {
+        "conditions": {
+          "boolean": [{ "value1": "={{ $json.active }}", "value2": true }]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "When clicking Test workflow": {
+      "main": [[{ "node": "Fetch customer", "type": "main", "index": 0 }]]
+    },
+    "Fetch customer": {
+      "main": [[{ "node": "Route customer", "type": "main", "index": 0 }]],
+      "error": [[{ "node": "Route customer", "type": "error", "index": 1 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}

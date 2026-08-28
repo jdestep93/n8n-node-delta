@@ -12,9 +12,13 @@
     }
   },
   "scripts": {
-    "build": "tsc -b"
+    "build": "tsc -b",
+    "generate": "node scripts/generate-fixtures.mjs"
   },
   "dependencies": {
     "@flowdiff/core": "workspace:*"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }
