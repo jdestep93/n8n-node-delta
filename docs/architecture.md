@@ -10,7 +10,7 @@ the full fixture corpus. The snapshot repository, full extension lifecycle,
 and review UI are implemented by later tickets. Those tickets must update any
 implementation-state notes here when their code lands.
 
-FlowDiff has no backend. It runs at the n8n page/extension boundary, reads the
+NodeDelta has no backend. It runs at the n8n page/extension boundary, reads the
 current workflow from the same n8n origin with the user's existing session,
 normalizes it, stores manual snapshots in browser IndexedDB, calculates a
 semantic diff locally, and renders the result inside an isolated Shadow DOM.
@@ -22,20 +22,20 @@ n8n browser page
 isolated content script / Shadow DOM application
       |
       v
-@flowdiff/n8n-adapter -- read-only editor REST GET
+@nodedelta/n8n-adapter -- read-only editor REST GET
       |
       v
-@flowdiff/n8n-normalizer -- stable semantic representation + hash
+@nodedelta/n8n-normalizer -- stable semantic representation + hash
       |                              |
       v                              v
-@flowdiff/snapshot-store       current workflow
+@nodedelta/snapshot-store       current workflow
       |                              |
       +--------------+---------------+
                      v
-             @flowdiff/diff-engine
+             @nodedelta/diff-engine
                      |
                      v
-                @flowdiff/diff-ui
+                @nodedelta/diff-ui
 ```
 
 ## Extension contexts
@@ -55,16 +55,16 @@ static lifecycle/permission shell with the complete design above.
 
 ## Package responsibilities
 
-| Package                    | Responsibility                               | May depend on                                  |
-| -------------------------- | -------------------------------------------- | ---------------------------------------------- |
-| `@flowdiff/core`           | Domain models, ports, error contracts        | No workspace package                           |
-| `@flowdiff/n8n-adapter`    | Detection and read-only n8n interoperability | `core`                                         |
-| `@flowdiff/n8n-normalizer` | Normalize, canonicalize, hash                | `core`                                         |
-| `@flowdiff/diff-engine`    | Browser-independent semantic comparison      | `core`                                         |
-| `@flowdiff/snapshot-store` | IndexedDB repository and snapshot pipeline   | `core`                                         |
-| `@flowdiff/diff-ui`        | Reusable React review UI                     | `core`, `diff-engine`                          |
-| `@flowdiff/test-fixtures`  | Original synthetic workflow fixtures         | `core`                                         |
-| `@flowdiff/extension`      | Browser contexts and composition root        | All production packages except `test-fixtures` |
+| Package                     | Responsibility                               | May depend on                                  |
+| --------------------------- | -------------------------------------------- | ---------------------------------------------- |
+| `@nodedelta/core`           | Domain models, ports, error contracts        | No workspace package                           |
+| `@nodedelta/n8n-adapter`    | Detection and read-only n8n interoperability | `core`                                         |
+| `@nodedelta/n8n-normalizer` | Normalize, canonicalize, hash                | `core`                                         |
+| `@nodedelta/diff-engine`    | Browser-independent semantic comparison      | `core`                                         |
+| `@nodedelta/snapshot-store` | IndexedDB repository and snapshot pipeline   | `core`                                         |
+| `@nodedelta/diff-ui`        | Reusable React review UI                     | `core`, `diff-engine`                          |
+| `@nodedelta/test-fixtures`  | Original synthetic workflow fixtures         | `core`                                         |
+| `@nodedelta/extension`      | Browser contexts and composition root        | All production packages except `test-fixtures` |
 
 `scripts/check-dependencies.mjs` enforces this workspace graph. Browser/Chrome,
 React, and IndexedDB implementation details must not leak into the portable core,
@@ -80,7 +80,7 @@ normalizer, or diff engine.
   as HTML.
 - Snapshots are partitioned by a stable hash of `origin + basePath` and workflow
   ID, preventing collisions between n8n installations.
-- No workflow content crosses the n8n origin/extension boundary to a FlowDiff or
+- No workflow content crosses the n8n origin/extension boundary to a NodeDelta or
   third-party service.
 
 See [privacy.md](privacy.md) for the user-facing policy.

@@ -21,7 +21,7 @@ cookies or tokens.
 - Require an n8n public API key.
 - Fetch from the extension service worker with broad cross-origin access.
 - Read private n8n Vue stores through a main-world bridge.
-- Run a FlowDiff proxy/backend.
+- Run a NodeDelta proxy/backend.
 
 ## Consequences
 

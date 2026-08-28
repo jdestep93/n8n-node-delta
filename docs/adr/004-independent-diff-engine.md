@@ -11,7 +11,7 @@ reuse the same comparison semantics without a browser or React dependency.
 ## Decision
 
 Implement a deterministic, independently authored semantic engine in
-`@flowdiff/diff-engine`. It consumes normalized FlowDiff domain models, emits a
+`@nodedelta/diff-engine`. It consumes normalized NodeDelta domain models, emits a
 typed `WorkflowDiff`, treats workflow strings as inert data, and has no Chrome,
 React, n8n frontend, storage, or network dependency. Fixture/golden tests define
 the behavior.
@@ -26,6 +26,6 @@ the behavior.
 ## Consequences
 
 The package is portable, testable, local-only, and reusable by future adapters.
-FlowDiff owns matching, normalization assumptions, performance, and forward-
+NodeDelta owns matching, normalization assumptions, performance, and forward-
 compatibility maintenance. Specialized rendering may evolve without changing the
 core semantic result.

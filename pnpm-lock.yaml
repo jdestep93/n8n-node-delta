@@ -65,22 +65,22 @@ importers:
 
   apps/extension:
     dependencies:
-      '@flowdiff/core':
+      '@nodedelta/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@flowdiff/diff-engine':
+      '@nodedelta/diff-engine':
         specifier: workspace:*
         version: link:../../packages/diff-engine
-      '@flowdiff/diff-ui':
+      '@nodedelta/diff-ui':
         specifier: workspace:*
         version: link:../../packages/diff-ui
-      '@flowdiff/n8n-adapter':
+      '@nodedelta/n8n-adapter':
         specifier: workspace:*
         version: link:../../packages/n8n-adapter
-      '@flowdiff/n8n-normalizer':
+      '@nodedelta/n8n-normalizer':
         specifier: workspace:*
         version: link:../../packages/n8n-normalizer
-      '@flowdiff/snapshot-store':
+      '@nodedelta/snapshot-store':
         specifier: workspace:*
         version: link:../../packages/snapshot-store
       react:
@@ -97,16 +97,16 @@ importers:
 
   packages/diff-engine:
     dependencies:
-      '@flowdiff/core':
+      '@nodedelta/core':
         specifier: workspace:*
         version: link:../core
 
   packages/diff-ui:
     dependencies:
-      '@flowdiff/core':
+      '@nodedelta/core':
         specifier: workspace:*
         version: link:../core
-      '@flowdiff/diff-engine':
+      '@nodedelta/diff-engine':
         specifier: workspace:*
         version: link:../diff-engine
       react:
@@ -118,7 +118,7 @@ importers:
 
   packages/n8n-adapter:
     dependencies:
-      '@flowdiff/core':
+      '@nodedelta/core':
         specifier: workspace:*
         version: link:../core
       zod:
@@ -127,13 +127,13 @@ importers:
 
   packages/n8n-normalizer:
     dependencies:
-      '@flowdiff/core':
+      '@nodedelta/core':
         specifier: workspace:*
         version: link:../core
 
   packages/snapshot-store:
     dependencies:
-      '@flowdiff/core':
+      '@nodedelta/core':
         specifier: workspace:*
         version: link:../core
       dexie:
@@ -142,7 +142,7 @@ importers:
 
   packages/test-fixtures:
     dependencies:
-      '@flowdiff/core':
+      '@nodedelta/core':
         specifier: workspace:*
         version: link:../core
     devDependencies:

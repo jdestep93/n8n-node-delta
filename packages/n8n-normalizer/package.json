@@ -1,5 +1,5 @@
 {
-  "name": "@flowdiff/n8n-normalizer",
+  "name": "@nodedelta/n8n-normalizer",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -16,6 +16,6 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@flowdiff/core": "workspace:*"
+    "@nodedelta/core": "workspace:*"
   }
 }

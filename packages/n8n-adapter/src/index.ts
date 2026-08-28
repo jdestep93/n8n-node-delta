@@ -3,7 +3,7 @@ export type {
   N8nAdapterCapabilities,
   N8nAdapterHealth,
   N8nInstanceInfo,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 
 export {
   detectN8nContext,

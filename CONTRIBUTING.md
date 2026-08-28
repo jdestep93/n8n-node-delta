@@ -1,6 +1,6 @@
-# Contributing to FlowDiff
+# Contributing to NodeDelta
 
-Thanks for helping build FlowDiff. The project is pre-release and changes must
+Thanks for helping build NodeDelta. The project is pre-release and changes must
 preserve its local-only, read-only security model.
 
 ## Before you start

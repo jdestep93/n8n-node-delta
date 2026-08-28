@@ -41,7 +41,7 @@ export default tseslint.config(
       'no-restricted-globals': ['error', 'chrome', 'window', 'document'],
       'no-restricted-imports': [
         'error',
-        { patterns: ['react', 'react-dom', '@flowdiff/*'] },
+        { patterns: ['react', 'react-dom', '@nodedelta/*'] },
       ],
     },
   },

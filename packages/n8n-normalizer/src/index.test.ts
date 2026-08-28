@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import type { NormalizedWorkflow, RawN8nWorkflow } from '@flowdiff/core';
+import type { NormalizedWorkflow, RawN8nWorkflow } from '@nodedelta/core';
 
 import {
   NORMALIZATION_RULES,

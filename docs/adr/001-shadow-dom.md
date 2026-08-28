@@ -4,8 +4,8 @@ Status: Accepted
 
 ## Context
 
-FlowDiff renders inside n8n pages whose Vue components, CSS, and DOM structure
-can change independently. Page styles could break FlowDiff, and extension styles
+NodeDelta renders inside n8n pages whose Vue components, CSS, and DOM structure
+can change independently. Page styles could break NodeDelta, and extension styles
 must not alter n8n.
 
 ## Decision

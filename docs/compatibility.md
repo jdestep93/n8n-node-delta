@@ -2,7 +2,7 @@
 
 ## Current evidence
 
-FlowDiff is pre-release. A successful build or mocked adapter test is not
+NodeDelta is pre-release. A successful build or mocked adapter test is not
 compatibility evidence. The release gate requires the exact packaged artifact to
 complete the user journey and privacy/network review.
 
@@ -23,7 +23,7 @@ then this table makes no support claim.
 
 - V1 targets current stable Chrome and Edge and approximately 1–300 workflow
   nodes.
-- FlowDiff detects required adapter capabilities and response shape. It does not
+- NodeDelta detects required adapter capabilities and response shape. It does not
   reject an n8n instance merely because its version is newer.
 - n8n Cloud, root-hosted self-hosted n8n, custom domains, and technically
   detectable path prefixes are in scope.
@@ -47,7 +47,7 @@ Record evidence for the exact commit, unpacked build, and ZIP:
    existing and a new workflow route, save/reload a snapshot, modify/save in n8n,
    refresh, inspect a code diff, and verify persistence.
 4. Inspect DevTools Network: workflow data stays on the n8n origin/inside the
-   extension; there are no credential, analytics, AI, FlowDiff backend, or other
+   extension; there are no credential, analytics, AI, NodeDelta backend, or other
    workflow-upload requests.
 5. Record browser versions, n8n image tag or Cloud build, operating system, date,
    tester/CI run, commit, ZIP checksum, and pass/fail result in the table or an
@@ -72,7 +72,7 @@ image tag in one documented location and use this procedure:
 For an n8n Cloud change, repeat the manual Cloud checklist and record any exposed
 build/version. Cloud evidence cannot be inferred from the self-hosted test.
 
-## Bumping FlowDiff or browser dependencies
+## Bumping NodeDelta or browser dependencies
 
 Keep root and extension versions equal. A version or production-dependency bump
 requires frozen install, formatting, lint, typecheck, tests, build, extension

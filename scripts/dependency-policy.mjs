@@ -1,20 +1,23 @@
 const allowedWorkspaceDependencies = new Map([
-  ['@flowdiff/core', new Set()],
-  ['@flowdiff/n8n-adapter', new Set(['@flowdiff/core'])],
-  ['@flowdiff/n8n-normalizer', new Set(['@flowdiff/core'])],
-  ['@flowdiff/diff-engine', new Set(['@flowdiff/core'])],
-  ['@flowdiff/snapshot-store', new Set(['@flowdiff/core'])],
-  ['@flowdiff/diff-ui', new Set(['@flowdiff/core', '@flowdiff/diff-engine'])],
-  ['@flowdiff/test-fixtures', new Set(['@flowdiff/core'])],
+  ['@nodedelta/core', new Set()],
+  ['@nodedelta/n8n-adapter', new Set(['@nodedelta/core'])],
+  ['@nodedelta/n8n-normalizer', new Set(['@nodedelta/core'])],
+  ['@nodedelta/diff-engine', new Set(['@nodedelta/core'])],
+  ['@nodedelta/snapshot-store', new Set(['@nodedelta/core'])],
   [
-    '@flowdiff/extension',
+    '@nodedelta/diff-ui',
+    new Set(['@nodedelta/core', '@nodedelta/diff-engine']),
+  ],
+  ['@nodedelta/test-fixtures', new Set(['@nodedelta/core'])],
+  [
+    '@nodedelta/extension',
     new Set([
-      '@flowdiff/core',
-      '@flowdiff/n8n-adapter',
-      '@flowdiff/n8n-normalizer',
-      '@flowdiff/diff-engine',
-      '@flowdiff/snapshot-store',
-      '@flowdiff/diff-ui',
+      '@nodedelta/core',
+      '@nodedelta/n8n-adapter',
+      '@nodedelta/n8n-normalizer',
+      '@nodedelta/diff-engine',
+      '@nodedelta/snapshot-store',
+      '@nodedelta/diff-ui',
     ]),
   ],
 ]);
@@ -30,7 +33,7 @@ export function validateWorkspaceDependencies(packages) {
     }
 
     for (const dependency of workspacePackage.dependencies) {
-      if (dependency.startsWith('@flowdiff/') && !allowed.has(dependency)) {
+      if (dependency.startsWith('@nodedelta/') && !allowed.has(dependency)) {
         errors.push(
           `${workspacePackage.name} must not depend on ${dependency}`,
         );

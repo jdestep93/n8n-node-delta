@@ -11,7 +11,7 @@ const packageJson = JSON.parse(
 const artifactsDirectory = resolve(workspaceRoot, 'artifacts');
 const archivePath = resolve(
   artifactsDirectory,
-  `flowdiff-chrome-v${packageJson.version}.zip`,
+  `nodedelta-chrome-v${packageJson.version}.zip`,
 );
 
 await mkdir(artifactsDirectory, { recursive: true });

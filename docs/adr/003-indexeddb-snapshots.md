@@ -19,7 +19,7 @@ deduplication; default retention is FIFO at 50 snapshots per workflow.
 
 - `chrome.storage.local`, which is better suited to smaller extension settings.
 - `localStorage`, which is synchronous and poorly suited to structured data.
-- A FlowDiff backend or cloud-sync account.
+- A NodeDelta backend or cloud-sync account.
 - Filesystem/Git persistence from the browser extension.
 
 ## Consequences

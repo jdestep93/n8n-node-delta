@@ -1,6 +1,8 @@
-# FlowDiff for n8n
+# NodeDelta for n8n
 
-FlowDiff is an independent, local-first Chrome and Edge extension for reviewing
+**See exactly what changed in your n8n workflow.**
+
+NodeDelta is an independent, local-first Chrome and Edge extension for reviewing
 meaningful changes between n8n workflows. It is designed to show node,
 connection, parameter, expression, and code changes instead of an undifferentiated
 JSON patch.
@@ -13,7 +15,7 @@ JSON patch.
 > target and must not be treated as released features until the release
 > checklist and [compatibility evidence](docs/compatibility.md) pass.
 
-FlowDiff is an independent open-source project and is not affiliated with or
+NodeDelta is an independent open-source project and is not affiliated with or
 endorsed by n8n.
 
 ## Screenshots
@@ -34,7 +36,7 @@ The V1 release is intended to provide:
   prompts, and text;
 - a searchable changes list, read-only workflow graph, and node inspector;
 - n8n Cloud and self-hosted support, including detectable path prefixes; and
-- local-only operation with no FlowDiff backend, account, analytics, or AI calls.
+- local-only operation with no NodeDelta backend, account, analytics, or AI calls.
 
 See [Compatibility](docs/compatibility.md) for what has actually been tested.
 
@@ -42,7 +44,7 @@ See [Compatibility](docs/compatibility.md) for what has actually been tested.
 
 ### Chrome Web Store
 
-FlowDiff has not been published to the Chrome Web Store. A store link will be
+NodeDelta has not been published to the Chrome Web Store. A store link will be
 added only after V1 satisfies the release gate.
 
 ### Manual installation
@@ -56,7 +58,7 @@ added only after V1 satisfies the release gate.
 5. Choose **Load unpacked** and select `dist/chrome` (or the extracted release
    directory).
 
-The current development build is a shell, not a V1 release candidate.
+The current development build is not yet a V1 release candidate.
 
 ## Development
 
@@ -79,17 +81,17 @@ pnpm package:chrome
 
 `pnpm dev` rebuilds the extension in watch mode. `pnpm build` creates the
 unpacked extension in `dist/chrome`. `pnpm package:chrome` creates
-`artifacts/flowdiff-chrome-v<version>.zip`; release-grade packaging and
+`artifacts/nodedelta-chrome-v<version>.zip`; release-grade packaging and
 unpack/reverification are completed by T12.
 
 More detail is in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Privacy and security
 
-FlowDiff processes workflows locally.
+NodeDelta processes workflows locally.
 
 Workflow contents and snapshots never leave your browser unless you explicitly
-export them. V1 does not include export, a FlowDiff backend, user accounts,
+export them. V1 does not include export, a NodeDelta backend, user accounts,
 analytics, telemetry containing workflow data, or external AI requests.
 
 The production extension reads the current workflow through the user's existing
@@ -104,7 +106,7 @@ The current manifest requests `storage`, required Cloud host access for
 `https://*.app.n8n.cloud/*`, and optional `http://*/*` / `https://*/*` host
 access for user-approved self-hosted sites. T06 will add the final user-gesture
 permission and injection flow and must update this section if the reviewed
-manifest changes. FlowDiff must never request `<all_urls>` as a required host
+manifest changes. NodeDelta must never request `<all_urls>` as a required host
 permission.
 
 ## Architecture
@@ -136,7 +138,7 @@ The evidence matrix and version-bump procedure live in
 ## Support
 
 This project is pre-release. Search existing GitHub issues before filing a new
-one. Include FlowDiff/browser versions, n8n version when available, deployment
+one. Include NodeDelta/browser versions, n8n version when available, deployment
 type, and non-sensitive diagnostics. Never attach workflow JSON, parameters,
 credentials, authentication material, or screenshots containing secrets.
 
@@ -155,7 +157,7 @@ before opening a pull request.
 - V1 is read-only: no rollback, workflow writes, or automatic snapshots.
 - V1 has no Git/GitHub/GitLab integration, cloud sync, sharing, accounts, AI,
   Firefox/Safari packaging, or mobile support.
-- FlowDiff uses n8n's internal editor REST API because session-based access is a
+- NodeDelta uses n8n's internal editor REST API because session-based access is a
   product requirement; n8n changes may require adapter updates.
 - Path-prefix detection is best-effort and must fail gracefully.
 - Unknown community nodes receive generic semantic comparison; specialized
@@ -166,6 +168,6 @@ before opening a pull request.
 
 ## License
 
-FlowDiff is released under the [MIT License](LICENSE). Production dependency
+NodeDelta is released under the [MIT License](LICENSE). Production dependency
 licenses are checked by `pnpm audit:licenses` and documented in
 [docs/dependency-license-audit.md](docs/dependency-license-audit.md).

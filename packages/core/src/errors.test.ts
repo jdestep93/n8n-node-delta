@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
-  FlowDiffError,
+  NodeDeltaError,
   N8nAuthenticationError,
   N8nNetworkError,
   N8nNotDetectedError,
@@ -11,7 +11,7 @@ import {
   WorkflowNotFoundError,
 } from './index.js';
 
-describe('FlowDiff errors', () => {
+describe('NodeDelta errors', () => {
   it.each([
     [new N8nNotDetectedError(), 'N8N_NOT_DETECTED'],
     [new WorkflowNotFoundError('abc'), 'WORKFLOW_NOT_FOUND'],
@@ -24,7 +24,7 @@ describe('FlowDiff errors', () => {
     ],
     [new StorageUnavailableError(), 'STORAGE_UNAVAILABLE'],
   ] as const)('exposes a stable code for %s', (error, expectedCode) => {
-    expect(error).toBeInstanceOf(FlowDiffError);
+    expect(error).toBeInstanceOf(NodeDeltaError);
     expect(error).toBeInstanceOf(Error);
     expect(error.code).toBe(expectedCode);
     expect(error.name).toBe(error.constructor.name);

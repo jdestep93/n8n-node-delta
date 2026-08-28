@@ -1,5 +1,5 @@
 {
-  "name": "@flowdiff/extension",
+  "name": "@nodedelta/extension",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -9,12 +9,12 @@
     "dev": "vite build --watch"
   },
   "dependencies": {
-    "@flowdiff/core": "workspace:*",
-    "@flowdiff/diff-engine": "workspace:*",
-    "@flowdiff/diff-ui": "workspace:*",
-    "@flowdiff/n8n-adapter": "workspace:*",
-    "@flowdiff/n8n-normalizer": "workspace:*",
-    "@flowdiff/snapshot-store": "workspace:*",
+    "@nodedelta/core": "workspace:*",
+    "@nodedelta/diff-engine": "workspace:*",
+    "@nodedelta/diff-ui": "workspace:*",
+    "@nodedelta/n8n-adapter": "workspace:*",
+    "@nodedelta/n8n-normalizer": "workspace:*",
+    "@nodedelta/snapshot-store": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "zustand": "^5.0.8"

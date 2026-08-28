@@ -1,6 +1,6 @@
 import { getWorkflowId } from './workflow-route.js';
 
-const shellHostId = 'flowdiff-extension-shell';
+const shellHostId = 'nodedelta-extension-shell';
 
 function mountShell(): void {
   if (document.getElementById(shellHostId) !== null) return;
@@ -18,8 +18,8 @@ function mountShell(): void {
   const shadow = host.attachShadow({ mode: 'open' });
   const launcher = document.createElement('button');
   launcher.type = 'button';
-  launcher.textContent = 'FlowDiff detected this workflow.';
-  launcher.title = `Open FlowDiff for workflow ${workflowId}`;
+  launcher.textContent = 'NodeDelta detected this workflow.';
+  launcher.title = `Open NodeDelta for workflow ${workflowId}`;
   launcher.style.cssText = [
     'all: initial',
     'background: #171717',

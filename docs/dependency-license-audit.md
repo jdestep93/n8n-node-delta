@@ -52,12 +52,12 @@ mitigation, owner, and expiry; advisories must not be silently ignored.
 
 ## Source and fixture provenance
 
-FlowDiff's architecture and documentation are independently authored from the
+NodeDelta's architecture and documentation are independently authored from the
 project specification and public interoperability research. No n8n proprietary
 or Enterprise workflow-diff implementation was copied. n8n workflow JSON is used
 only as an interoperability format.
 
-At this audit commit, `@flowdiff/test-fixtures` is an empty package shell and no
+At this audit commit, `@nodedelta/test-fixtures` is an empty package shell and no
 workflow JSON fixtures exist. T03 must add only original synthetic fixtures and
 update [fixture-provenance.md](fixture-provenance.md). T12 must repeat this audit
 against the exact production bundle dependency closure and packaged artifact.

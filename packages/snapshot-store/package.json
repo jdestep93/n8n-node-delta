@@ -1,5 +1,5 @@
 {
-  "name": "@flowdiff/snapshot-store",
+  "name": "@nodedelta/snapshot-store",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -16,7 +16,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@flowdiff/core": "workspace:*",
+    "@nodedelta/core": "workspace:*",
     "dexie": "^4.2.0"
   }
 }

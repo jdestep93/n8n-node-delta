@@ -1,5 +1,5 @@
 {
-  "name": "@flowdiff/n8n-adapter",
+  "name": "@nodedelta/n8n-adapter",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -16,7 +16,7 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@flowdiff/core": "workspace:*",
+    "@nodedelta/core": "workspace:*",
     "zod": "^4.1.5"
   }
 }

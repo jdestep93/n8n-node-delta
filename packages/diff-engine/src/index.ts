@@ -9,7 +9,7 @@ import type {
   ValueChange,
   WorkflowDiff,
   WorkflowDiffer,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 
 export type {
   ConnectionChange,
@@ -21,7 +21,7 @@ export type {
   ValueChange,
   WorkflowDiff,
   WorkflowDiffer,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 
 /**
  * Primary-kind precedence when a node changed in several ways at once: any
@@ -541,7 +541,7 @@ function buildWorkflowChanges(
 
 /**
  * Browser-independent semantic workflow comparison. Works on normalized
- * workflows (see `@flowdiff/n8n-normalizer`); input object key order is not
+ * workflows (see `@nodedelta/n8n-normalizer`); input object key order is not
  * significant, while parameter array order is treated as meaningful.
  *
  * Semantics:

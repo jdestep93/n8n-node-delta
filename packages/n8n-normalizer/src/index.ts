@@ -7,7 +7,7 @@ import type {
   RawN8nNode,
   RawN8nWorkflow,
   WorkflowNormalizer,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 
 export type {
   NormalizedConnection,
@@ -15,7 +15,7 @@ export type {
   NormalizedNode,
   NormalizedWorkflow,
   WorkflowNormalizer,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 
 export const NORMALIZATION_RULES = {
   workflow: {

@@ -1,5 +1,5 @@
 {
-  "name": "@flowdiff/test-fixtures",
+  "name": "@nodedelta/test-fixtures",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -17,7 +17,7 @@
     "generate": "node scripts/generate-fixtures.mjs"
   },
   "dependencies": {
-    "@flowdiff/core": "workspace:*"
+    "@nodedelta/core": "workspace:*"
   },
   "devDependencies": {
     "prettier": "^3.6.2"

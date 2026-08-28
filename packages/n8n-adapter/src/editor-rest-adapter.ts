@@ -1,5 +1,5 @@
 import {
-  FlowDiffError,
+  NodeDeltaError,
   N8nAuthenticationError,
   N8nNetworkError,
   N8nNotDetectedError,
@@ -9,7 +9,7 @@ import {
   type N8nAdapterHealth,
   type N8nInstanceInfo,
   type RawN8nWorkflow,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 import { z } from 'zod';
 
 import { detectN8nContext, type N8nContext } from './context.js';
@@ -117,7 +117,7 @@ export class EditorRestN8nAdapter implements N8nAdapter {
         headers: { Accept: 'application/json' },
       });
     } catch (cause) {
-      if (cause instanceof FlowDiffError) {
+      if (cause instanceof NodeDeltaError) {
         throw cause;
       }
       throw new N8nNetworkError({

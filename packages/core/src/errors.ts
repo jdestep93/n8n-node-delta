@@ -1,4 +1,4 @@
-export type FlowDiffErrorCode =
+export type NodeDeltaErrorCode =
   | 'N8N_NOT_DETECTED'
   | 'WORKFLOW_NOT_FOUND'
   | 'N8N_AUTHENTICATION'
@@ -7,18 +7,18 @@ export type FlowDiffErrorCode =
   | 'PERMISSION_REQUIRED'
   | 'STORAGE_UNAVAILABLE';
 
-export interface FlowDiffErrorOptions extends ErrorOptions {
+export interface NodeDeltaErrorOptions extends ErrorOptions {
   diagnostics?: Readonly<Record<string, unknown>>;
 }
 
-export class FlowDiffError extends Error {
-  readonly code: FlowDiffErrorCode;
+export class NodeDeltaError extends Error {
+  readonly code: NodeDeltaErrorCode;
   readonly diagnostics?: Readonly<Record<string, unknown>>;
 
   constructor(
-    code: FlowDiffErrorCode,
+    code: NodeDeltaErrorCode,
     message: string,
-    options: FlowDiffErrorOptions = {},
+    options: NodeDeltaErrorOptions = {},
   ) {
     super(message, { cause: options.cause });
     this.code = code;
@@ -29,18 +29,18 @@ export class FlowDiffError extends Error {
   }
 }
 
-export class N8nNotDetectedError extends FlowDiffError {
-  constructor(options?: FlowDiffErrorOptions) {
+export class N8nNotDetectedError extends NodeDeltaError {
+  constructor(options?: NodeDeltaErrorOptions) {
     super(
       'N8N_NOT_DETECTED',
-      "FlowDiff couldn't detect an n8n instance on this page.",
+      "NodeDelta couldn't detect an n8n instance on this page.",
       options,
     );
   }
 }
 
-export class WorkflowNotFoundError extends FlowDiffError {
-  constructor(workflowId?: string, options?: FlowDiffErrorOptions) {
+export class WorkflowNotFoundError extends NodeDeltaError {
+  constructor(workflowId?: string, options?: NodeDeltaErrorOptions) {
     const errorOptions =
       workflowId === undefined
         ? options
@@ -57,38 +57,38 @@ export class WorkflowNotFoundError extends FlowDiffError {
   }
 }
 
-export class N8nAuthenticationError extends FlowDiffError {
-  constructor(options?: FlowDiffErrorOptions) {
+export class N8nAuthenticationError extends NodeDeltaError {
+  constructor(options?: NodeDeltaErrorOptions) {
     super(
       'N8N_AUTHENTICATION',
-      'FlowDiff could not read this workflow. Reload n8n and sign in again.',
+      'NodeDelta could not read this workflow. Reload n8n and sign in again.',
       options,
     );
   }
 }
 
-export class UnsupportedN8nResponseError extends FlowDiffError {
-  constructor(options?: FlowDiffErrorOptions) {
+export class UnsupportedN8nResponseError extends NodeDeltaError {
+  constructor(options?: NodeDeltaErrorOptions) {
     super(
       'UNSUPPORTED_N8N_RESPONSE',
-      'This n8n response format is not supported by this version of FlowDiff.',
+      'This n8n response format is not supported by this version of NodeDelta.',
       options,
     );
   }
 }
 
-export class N8nNetworkError extends FlowDiffError {
-  constructor(options?: FlowDiffErrorOptions) {
+export class N8nNetworkError extends NodeDeltaError {
+  constructor(options?: NodeDeltaErrorOptions) {
     super(
       'N8N_NETWORK',
-      'FlowDiff could not reach this n8n instance. Check your connection and try again.',
+      'NodeDelta could not reach this n8n instance. Check your connection and try again.',
       options,
     );
   }
 }
 
-export class PermissionRequiredError extends FlowDiffError {
-  constructor(origin?: string, options?: FlowDiffErrorOptions) {
+export class PermissionRequiredError extends NodeDeltaError {
+  constructor(origin?: string, options?: NodeDeltaErrorOptions) {
     const errorOptions =
       origin === undefined
         ? options
@@ -99,14 +99,14 @@ export class PermissionRequiredError extends FlowDiffError {
 
     super(
       'PERMISSION_REQUIRED',
-      'FlowDiff needs permission to access this n8n instance.',
+      'NodeDelta needs permission to access this n8n instance.',
       errorOptions,
     );
   }
 }
 
-export class StorageUnavailableError extends FlowDiffError {
-  constructor(options?: FlowDiffErrorOptions) {
+export class StorageUnavailableError extends NodeDeltaError {
+  constructor(options?: NodeDeltaErrorOptions) {
     super(
       'STORAGE_UNAVAILABLE',
       'Local snapshot storage is unavailable in this browser.',

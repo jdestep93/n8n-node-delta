@@ -1,11 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "FlowDiff for n8n",
-  "description": "Local-first semantic workflow diffs for n8n.",
+  "name": "NodeDelta for n8n",
+  "description": "See exactly what changed in your n8n workflow.",
   "version": "0.1.0",
   "action": {
     "default_popup": "popup/index.html",
-    "default_title": "FlowDiff for n8n"
+    "default_title": "NodeDelta for n8n"
   },
   "background": {
     "service_worker": "assets/background.js",

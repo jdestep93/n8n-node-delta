@@ -1,5 +1,5 @@
 {
-  "name": "@flowdiff/diff-ui",
+  "name": "@nodedelta/diff-ui",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -16,8 +16,8 @@
     "build": "tsc -b"
   },
   "dependencies": {
-    "@flowdiff/core": "workspace:*",
-    "@flowdiff/diff-engine": "workspace:*",
+    "@nodedelta/core": "workspace:*",
+    "@nodedelta/diff-engine": "workspace:*",
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },

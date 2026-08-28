@@ -6,15 +6,15 @@ describe('workspace dependency policy', () => {
   it('allows the documented dependency direction', () => {
     expect(
       validateWorkspaceDependencies([
-        { name: '@flowdiff/core', dependencies: [] },
-        { name: '@flowdiff/diff-engine', dependencies: ['@flowdiff/core'] },
+        { name: '@nodedelta/core', dependencies: [] },
+        { name: '@nodedelta/diff-engine', dependencies: ['@nodedelta/core'] },
         {
-          name: '@flowdiff/diff-ui',
-          dependencies: ['@flowdiff/core', '@flowdiff/diff-engine'],
+          name: '@nodedelta/diff-ui',
+          dependencies: ['@nodedelta/core', '@nodedelta/diff-engine'],
         },
         {
-          name: '@flowdiff/extension',
-          dependencies: ['@flowdiff/core', '@flowdiff/diff-ui'],
+          name: '@nodedelta/extension',
+          dependencies: ['@nodedelta/core', '@nodedelta/diff-ui'],
         },
       ]),
     ).toEqual([]);
@@ -23,12 +23,15 @@ describe('workspace dependency policy', () => {
   it('rejects core-to-application and engine-to-UI dependencies', () => {
     expect(
       validateWorkspaceDependencies([
-        { name: '@flowdiff/core', dependencies: ['@flowdiff/extension'] },
-        { name: '@flowdiff/diff-engine', dependencies: ['@flowdiff/diff-ui'] },
+        { name: '@nodedelta/core', dependencies: ['@nodedelta/extension'] },
+        {
+          name: '@nodedelta/diff-engine',
+          dependencies: ['@nodedelta/diff-ui'],
+        },
       ]),
     ).toEqual([
-      '@flowdiff/core must not depend on @flowdiff/extension',
-      '@flowdiff/diff-engine must not depend on @flowdiff/diff-ui',
+      '@nodedelta/core must not depend on @nodedelta/extension',
+      '@nodedelta/diff-engine must not depend on @nodedelta/diff-ui',
     ]);
   });
 });

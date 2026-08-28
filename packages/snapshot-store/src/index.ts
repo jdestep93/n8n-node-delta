@@ -1,1 +1,1 @@
-export type { SnapshotRepository, WorkflowSnapshot } from '@flowdiff/core';
+export type { SnapshotRepository, WorkflowSnapshot } from '@nodedelta/core';

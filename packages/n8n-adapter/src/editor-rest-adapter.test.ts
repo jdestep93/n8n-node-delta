@@ -4,7 +4,7 @@ import {
   N8nNotDetectedError,
   UnsupportedN8nResponseError,
   WorkflowNotFoundError,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 import { describe, expect, it, vi } from 'vitest';
 
 import {

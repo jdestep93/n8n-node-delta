@@ -9,7 +9,7 @@ import type {
   NormalizedWorkflow,
   RawN8nWorkflow,
   WorkflowDiff,
-} from '@flowdiff/core';
+} from '@nodedelta/core';
 
 import { getWorkflowFixture } from '../../test-fixtures/src/index.js';
 import type { workflowFixtures } from '../../test-fixtures/src/index.js';

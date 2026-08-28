@@ -18,8 +18,10 @@ None as of 2026-08-28.
 - The architecture references Dexie, semantic diff UI dependencies, Docker n8n,
   and release-grade packaging that are completed by later tickets. Documentation
   describes those as V1 contracts and labels unverified state.
-- The specification uses both `n8n-diff-tool` and FlowDiff as working names. The
-  repository/package/product naming is consistently `FlowDiff` / `flowdiff`;
+- The specification originally used `FlowDiff` and `n8n-diff-tool` as working
+  names. The product was renamed before V1 to `NodeDelta for n8n`, with
+  `NodeDelta` as the short name, `n8n-node-delta` as the repository/root package,
+  and `@nodedelta/*` as the internal workspace package scope;
   this is permitted by the specification.
 
 ## Entry template
