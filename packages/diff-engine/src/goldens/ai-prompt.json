@@ -1,0 +1,56 @@
+{
+  "summary": {
+    "nodesAdded": 0,
+    "nodesRemoved": 0,
+    "nodesModified": 1,
+    "nodesRenamed": 0,
+    "nodesMoved": 0,
+    "connectionsAdded": 0,
+    "connectionsRemoved": 0,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [
+    {
+      "kind": "modified",
+      "before": {
+        "id": "agent-1",
+        "name": "Draft reply",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "promptType": "define",
+          "text": "Write a concise support reply for {{ $json.question }}."
+        }
+      },
+      "after": {
+        "id": "agent-1",
+        "name": "Draft reply",
+        "type": "@n8n/n8n-nodes-langchain.agent",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "promptType": "define",
+          "text": "Write a warm, concise support reply for {{ $json.question }}."
+        }
+      },
+      "changes": [
+        {
+          "path": "parameters.text",
+          "kind": "modified",
+          "before": "Write a concise support reply for {{ $json.question }}.",
+          "after": "Write a warm, concise support reply for {{ $json.question }}."
+        }
+      ]
+    }
+  ],
+  "connectionChanges": [],
+  "workflowChanges": [],
+  "hasChanges": true
+}

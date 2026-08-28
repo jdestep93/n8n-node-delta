@@ -1,0 +1,27 @@
+{
+  "id": "fixture-node-moved",
+  "name": "Node moved",
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "name": "When clicking Test workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {}
+    },
+    {
+      "id": "request-1",
+      "name": "Fetch customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [360, 180],
+      "parameters": {
+        "method": "GET",
+        "url": "https://example.invalid/customers/1"
+      }
+    }
+  ],
+  "connections": {},
+  "settings": { "executionOrder": "v1" }
+}

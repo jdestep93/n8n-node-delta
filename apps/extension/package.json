@@ -1,0 +1,22 @@
+{
+  "name": "@nodedelta/extension",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "build": "vite build && vite build --config vite.content.config.ts",
+    "dev": "vite build --watch"
+  },
+  "dependencies": {
+    "@nodedelta/core": "workspace:*",
+    "@nodedelta/diff-engine": "workspace:*",
+    "@nodedelta/diff-ui": "workspace:*",
+    "@nodedelta/n8n-adapter": "workspace:*",
+    "@nodedelta/n8n-normalizer": "workspace:*",
+    "@nodedelta/snapshot-store": "workspace:*",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "zustand": "^5.0.8"
+  }
+}

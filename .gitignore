@@ -1,0 +1,10 @@
+artifacts/
+coverage/
+dist/
+node_modules/
+packages/*/dist/
+apps/*/dist/
+playwright-report/
+test-results/
+*.tsbuildinfo
+.idea/

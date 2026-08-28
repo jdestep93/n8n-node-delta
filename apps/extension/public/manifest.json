@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "NodeDelta for n8n",
+  "description": "See exactly what changed in your n8n workflow.",
+  "version": "0.1.0",
+  "action": {
+    "default_popup": "popup/index.html",
+    "default_title": "NodeDelta for n8n"
+  },
+  "background": {
+    "service_worker": "assets/background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.app.n8n.cloud/*"],
+      "js": ["assets/content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": ["https://*.app.n8n.cloud/*"],
+  "optional_host_permissions": ["http://*/*", "https://*/*"],
+  "permissions": ["activeTab", "scripting", "storage"],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

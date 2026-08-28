@@ -1,0 +1,23 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "noEmit": true,
+    "tsBuildInfoFile": "node_modules/.cache/tsconfig.tsbuildinfo",
+    "types": ["chrome"]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "vite.config.ts",
+    "vite.content.config.ts"
+  ],
+  "references": [
+    { "path": "../../packages/core" },
+    { "path": "../../packages/n8n-adapter" },
+    { "path": "../../packages/n8n-normalizer" },
+    { "path": "../../packages/diff-engine" },
+    { "path": "../../packages/snapshot-store" },
+    { "path": "../../packages/diff-ui" }
+  ]
+}

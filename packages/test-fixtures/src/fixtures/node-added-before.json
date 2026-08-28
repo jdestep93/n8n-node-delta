@@ -1,0 +1,31 @@
+{
+  "id": "fixture-node-added",
+  "name": "Node added",
+  "nodes": [
+    {
+      "id": "trigger-1",
+      "name": "When clicking Test workflow",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 0],
+      "parameters": {}
+    },
+    {
+      "id": "request-1",
+      "name": "Fetch customer",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 1,
+      "position": [240, 0],
+      "parameters": {
+        "method": "GET",
+        "url": "https://example.invalid/customers/1"
+      }
+    }
+  ],
+  "connections": {
+    "When clicking Test workflow": {
+      "main": [[{ "node": "Fetch customer", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" }
+}

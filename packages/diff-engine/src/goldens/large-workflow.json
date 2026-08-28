@@ -1,0 +1,62 @@
+{
+  "summary": {
+    "nodesAdded": 0,
+    "nodesRemoved": 0,
+    "nodesModified": 1,
+    "nodesRenamed": 0,
+    "nodesMoved": 0,
+    "connectionsAdded": 0,
+    "connectionsRemoved": 0,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [
+    {
+      "kind": "modified",
+      "before": {
+        "id": "large-300",
+        "name": "Large node 300",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": {
+          "x": 4180,
+          "y": 1960
+        },
+        "parameters": {
+          "value": 299,
+          "expression": "={{ $json.values[299] }}"
+        }
+      },
+      "after": {
+        "id": "large-300",
+        "name": "Large node 300",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": {
+          "x": 4180,
+          "y": 1960
+        },
+        "parameters": {
+          "value": 300,
+          "expression": "={{ $json.final }}"
+        }
+      },
+      "changes": [
+        {
+          "path": "parameters.expression",
+          "kind": "modified",
+          "before": "={{ $json.values[299] }}",
+          "after": "={{ $json.final }}"
+        },
+        {
+          "path": "parameters.value",
+          "kind": "modified",
+          "before": 299,
+          "after": 300
+        }
+      ]
+    }
+  ],
+  "connectionChanges": [],
+  "workflowChanges": [],
+  "hasChanges": true
+}
