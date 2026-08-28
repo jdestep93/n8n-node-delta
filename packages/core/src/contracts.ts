@@ -16,6 +16,12 @@ export interface N8nAdapterHealth {
   reachable: boolean;
   authenticated: boolean;
   version?: string;
+  capabilities: N8nAdapterCapabilities;
+}
+
+export interface N8nAdapterCapabilities {
+  workflowFetch: boolean;
+  versionDetected: boolean;
 }
 
 export interface WorkflowProvider {
