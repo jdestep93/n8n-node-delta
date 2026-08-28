@@ -18,5 +18,8 @@
   "dependencies": {
     "@nodedelta/core": "workspace:*",
     "dexie": "^4.2.0"
+  },
+  "devDependencies": {
+    "fake-indexeddb": "^6.2.4"
   }
 }
