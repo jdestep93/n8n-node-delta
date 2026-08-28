@@ -43,6 +43,7 @@
       "changes": [
         {
           "path": "name",
+          "kind": "modified",
           "before": "Fetch customer",
           "after": "Load customer"
         }
@@ -50,5 +51,6 @@
     }
   ],
   "connectionChanges": [],
-  "workflowChanges": []
+  "workflowChanges": [],
+  "hasChanges": true
 }

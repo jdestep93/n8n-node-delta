@@ -26,6 +26,7 @@ import simpleGolden from './goldens/simple.json' with { type: 'json' };
 import sqlGolden from './goldens/sql.json' with { type: 'json' };
 import {
   classifyTextParameter,
+  classifyTextValue,
   classifyValueChange,
   diffWorkflows,
 } from './index.js';
@@ -178,6 +179,7 @@ describe('fixture corpus diffs', () => {
     expect(diff.nodeChanges).toEqual([]);
     expect(diff.connectionChanges).toEqual([]);
     expect(diff.workflowChanges).toEqual([]);
+    expect(diff.hasChanges).toBe(false);
   });
 
   it('detects the added node and its new connection', () => {
@@ -230,16 +232,19 @@ describe('fixture corpus change classification', () => {
     expect(change?.changes).toEqual([
       {
         path: 'parameters.method',
+        kind: 'modified',
         before: 'GET',
         after: 'POST',
       },
       {
         path: 'credentials.httpHeaderAuth.id',
+        kind: 'modified',
         before: 'credential-1',
         after: 'credential-2',
       },
       {
         path: 'credentials.httpHeaderAuth.name',
+        kind: 'modified',
         before: 'Production API',
         after: 'Staging API',
       },
@@ -256,6 +261,7 @@ describe('fixture corpus change classification', () => {
     expect(diff.nodeChanges[0]?.changes).toEqual([
       {
         path: 'name',
+        kind: 'modified',
         before: 'Fetch customer',
         after: 'Load customer',
       },
@@ -275,8 +281,8 @@ describe('fixture corpus change classification', () => {
     expect(diff.nodeChanges).toHaveLength(1);
     expect(diff.nodeChanges[0]?.kind).toBe('moved');
     expect(diff.nodeChanges[0]?.changes).toEqual([
-      { path: 'position.x', before: 240, after: 360 },
-      { path: 'position.y', before: 0, after: 180 },
+      { path: 'position.x', kind: 'modified', before: 240, after: 360 },
+      { path: 'position.y', kind: 'modified', before: 0, after: 180 },
     ]);
   });
 });
@@ -376,10 +382,11 @@ describe('connection rewiring and parameter pairs', () => {
     expect(diff.nodeChanges[0]?.changes).toEqual([
       {
         path: 'parameters.expression',
+        kind: 'modified',
         before: '={{ $json.values[299] }}',
         after: '={{ $json.final }}',
       },
-      { path: 'parameters.value', before: 299, after: 300 },
+      { path: 'parameters.value', kind: 'modified', before: 299, after: 300 },
     ]);
     expect(diff.summary).toMatchObject({
       nodesAdded: 0,
@@ -429,11 +436,120 @@ describe('matching and workflow-level semantics', () => {
     );
 
     expect(diff.workflowChanges).toEqual([
-      { path: 'active', after: true },
-      { path: 'name', before: 'Report', after: 'Report renamed' },
-      { path: 'settings.timezone', before: 'UTC' },
+      { path: 'active', kind: 'added', after: true },
+      {
+        path: 'name',
+        kind: 'modified',
+        before: 'Report',
+        after: 'Report renamed',
+      },
+      { path: 'settings.timezone', kind: 'removed', before: 'UTC' },
     ]);
     expect(diff.summary.workflowChanges).toBe(3);
+    expect(diff.hasChanges).toBe(true);
+    expect(diff.workflowChanges.map((change) => change.kind)).toEqual([
+      'added',
+      'modified',
+      'removed',
+    ]);
+  });
+
+  it('matches same-type same-name nodes even when both stable ids differ', () => {
+    const diff = diffWorkflows(
+      workflowWith('W', [
+        nodeWith('Request', {
+          id: 'old-id',
+          type: 'http',
+          parameters: { p: 1 },
+        }),
+      ]),
+      workflowWith('W', [
+        nodeWith('Request', {
+          id: 'new-id',
+          type: 'http',
+          parameters: { p: 2 },
+        }),
+      ]),
+    );
+
+    expect(diff.summary).toMatchObject({
+      nodesAdded: 0,
+      nodesRemoved: 0,
+      nodesModified: 1,
+    });
+    expect(diff.nodeChanges[0]?.changes).toContainEqual({
+      path: 'parameters.p',
+      kind: 'modified',
+      before: 1,
+      after: 2,
+    });
+  });
+
+  it('uses parameter, neighborhood, position, and name signals for a conservative fuzzy rename', () => {
+    const beforeNodes = [
+      nodeWith('Trigger', { id: 'trigger', type: 'trigger' }),
+      nodeWith('Fetch Customer', {
+        id: 'old-request',
+        type: 'http',
+        position: { x: 100, y: 0 },
+        parameters: { method: 'GET', url: '/customers', timeout: 30 },
+      }),
+      nodeWith('Done', { id: 'done', type: 'set', position: { x: 200, y: 0 } }),
+    ];
+    const afterNodes = [
+      nodeWith('Trigger', { id: 'trigger', type: 'trigger' }),
+      nodeWith('Load Customer', {
+        id: 'new-request',
+        type: 'http',
+        position: { x: 104, y: 2 },
+        parameters: { method: 'GET', url: '/customers', timeout: 45 },
+      }),
+      nodeWith('Done', { id: 'done', type: 'set', position: { x: 200, y: 0 } }),
+    ];
+    const connections = [
+      {
+        sourceNode: 'Trigger',
+        sourceOutputType: 'main',
+        sourceOutputIndex: 0,
+        targetNode: 'Fetch Customer',
+        targetInputType: 'main',
+        targetInputIndex: 0,
+      },
+      {
+        sourceNode: 'Fetch Customer',
+        sourceOutputType: 'main',
+        sourceOutputIndex: 0,
+        targetNode: 'Done',
+        targetInputType: 'main',
+        targetInputIndex: 0,
+      },
+    ];
+    const afterConnections = connections.map((connection) => ({
+      ...connection,
+      sourceNode:
+        connection.sourceNode === 'Fetch Customer'
+          ? 'Load Customer'
+          : connection.sourceNode,
+      targetNode:
+        connection.targetNode === 'Fetch Customer'
+          ? 'Load Customer'
+          : connection.targetNode,
+    }));
+
+    const diff = diffWorkflows(
+      workflowWith('W', beforeNodes, { connections }),
+      workflowWith('W', afterNodes, { connections: afterConnections }),
+    );
+
+    expect(diff.summary).toMatchObject({
+      nodesAdded: 0,
+      nodesRemoved: 0,
+      nodesRenamed: 1,
+      nodesModified: 1,
+      nodesMoved: 1,
+      connectionsAdded: 0,
+      connectionsRemoved: 0,
+    });
   });
 
   it('matches nodes by name when neither side has an id', () => {
@@ -445,7 +561,7 @@ describe('matching and workflow-level semantics', () => {
     expect(diff.summary.nodesModified).toBe(1);
     expect(diff.nodeChanges[0]?.kind).toBe('modified');
     expect(diff.nodeChanges[0]?.changes).toEqual([
-      { path: 'parameters.p', before: 1, after: 2 },
+      { path: 'parameters.p', kind: 'modified', before: 1, after: 2 },
     ]);
   });
 
@@ -461,7 +577,7 @@ describe('matching and workflow-level semantics', () => {
     expect(diff.summary.nodesRemoved).toBe(0);
     expect(diff.nodeChanges[0]?.kind).toBe('renamed');
     expect(diff.nodeChanges[0]?.changes).toEqual([
-      { path: 'name', before: 'A', after: 'B' },
+      { path: 'name', kind: 'modified', before: 'A', after: 'B' },
     ]);
   });
 
@@ -582,6 +698,7 @@ describe('matching and workflow-level semantics', () => {
     expect(changed.nodeChanges[0]?.changes).toEqual([
       {
         path: 'parameters.url',
+        kind: 'modified',
         before: expression,
         after: '={{ $json.other }}',
       },
@@ -598,8 +715,93 @@ describe('matching and workflow-level semantics', () => {
 
     expect(diffWorkflows(before, after)).toEqual(diffWorkflows(before, after));
     expect(diffWorkflows(before, after).nodeChanges[0]?.changes).toEqual([
-      { path: 'parameters.list.0', before: 1, after: 3 },
-      { path: 'parameters.list.2', before: 3, after: 1 },
+      { path: 'parameters.list.0', kind: 'modified', before: 1, after: 3 },
+      { path: 'parameters.list.2', kind: 'modified', before: 3, after: 1 },
+    ]);
+  });
+
+  it('aligns object-array insertions and removals without cascading modifications', () => {
+    const a = { name: 'a', value: 1 };
+    const b = { name: 'b', value: 2 };
+    const inserted = { name: 'inserted', value: 0 };
+    const before = workflowWith('W', [
+      nodeWith('A', { parameters: { rows: [a, b] } }),
+    ]);
+    const after = workflowWith('W', [
+      nodeWith('A', { parameters: { rows: [inserted, a, b] } }),
+    ]);
+
+    expect(diffWorkflows(before, after).nodeChanges[0]?.changes).toEqual([
+      {
+        path: 'parameters.rows.0',
+        kind: 'added',
+        after: inserted,
+      },
+    ]);
+    expect(diffWorkflows(after, before).nodeChanges[0]?.changes).toEqual([
+      {
+        path: 'parameters.rows.0',
+        kind: 'removed',
+        before: inserted,
+      },
+    ]);
+  });
+
+  it('keeps stable object-array rows aligned when insertion accompanies a modification', () => {
+    const before = workflowWith('W', [
+      nodeWith('A', {
+        parameters: {
+          rows: [
+            { name: 'a', value: 1 },
+            { name: 'b', value: 2 },
+          ],
+        },
+      }),
+    ]);
+    const after = workflowWith('W', [
+      nodeWith('A', {
+        parameters: {
+          rows: [
+            { name: 'inserted', value: 0 },
+            { name: 'a', value: 9 },
+            { name: 'b', value: 2 },
+          ],
+        },
+      }),
+    ]);
+
+    expect(diffWorkflows(before, after).nodeChanges[0]?.changes).toEqual([
+      {
+        path: 'parameters.rows.0',
+        kind: 'added',
+        after: { name: 'inserted', value: 0 },
+      },
+      {
+        path: 'parameters.rows.1.value',
+        kind: 'modified',
+        before: 1,
+        after: 9,
+      },
+    ]);
+  });
+
+  it('diffs preserved workflow metadata', () => {
+    const diff = diffWorkflows(
+      workflowWith('W', [], {
+        metadata: { future: { enabled: false } },
+      }),
+      workflowWith('W', [], {
+        metadata: { future: { enabled: true } },
+      }),
+    );
+
+    expect(diff.workflowChanges).toEqual([
+      {
+        path: 'metadata.future.enabled',
+        kind: 'modified',
+        before: false,
+        after: true,
+      },
     ]);
   });
 
@@ -634,6 +836,63 @@ describe('golden diffs (T05 acceptance)', () => {
 });
 
 describe('text classification (T09 seam)', () => {
+  it('classifies the complete text-content union using path, node type, and value', () => {
+    expect(
+      classifyTextValue(
+        'parameters.jsCode',
+        'n8n-nodes-base.code',
+        'return [];',
+      ),
+    ).toBe('javascript');
+    expect(
+      classifyTextValue(
+        'parameters.pythonCode',
+        'n8n-nodes-base.code',
+        'print(1)',
+      ),
+    ).toBe('python');
+    expect(
+      classifyTextValue(
+        'parameters.statement',
+        'n8n-nodes-base.postgres',
+        'SELECT 1',
+      ),
+    ).toBe('sql');
+    expect(
+      classifyTextValue(
+        'parameters.url',
+        'n8n-nodes-base.httpRequest',
+        '={{ $json.url }}',
+      ),
+    ).toBe('expression');
+    expect(classifyTextValue('parameters.body', 'test', '{"a":1}')).toBe(
+      'json',
+    );
+    expect(
+      classifyTextValue(
+        'parameters.html',
+        'n8n-nodes-base.html',
+        '<main>Hello</main>',
+      ),
+    ).toBe('html');
+    expect(
+      classifyTextValue(
+        'parameters.systemMessage',
+        'n8n-nodes-langchain.agent',
+        'Be concise',
+      ),
+    ).toBe('prompt');
+    expect(
+      classifyTextValue(
+        'parameters.markdown',
+        'n8n-nodes-base.markdown',
+        '# Heading',
+      ),
+    ).toBe('markdown');
+    expect(classifyTextValue('parameters.note', 'test', 'hello')).toBe('plain');
+    expect(classifyTextValue('parameters.count', 'test', 5)).toBe('unknown');
+  });
+
   it('classifies known n8n parameter paths and value shapes', () => {
     expect(classifyTextParameter('parameters.jsCode', 'return items;')).toBe(
       'javascript',

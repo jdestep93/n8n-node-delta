@@ -75,16 +75,19 @@
       "changes": [
         {
           "path": "parameters.method",
+          "kind": "modified",
           "before": "GET",
           "after": "POST"
         },
         {
           "path": "credentials.httpHeaderAuth.id",
+          "kind": "modified",
           "before": "credential-1",
           "after": "credential-2"
         },
         {
           "path": "credentials.httpHeaderAuth.name",
+          "kind": "modified",
           "before": "Production API",
           "after": "Staging API"
         }
@@ -92,5 +95,6 @@
     }
   ],
   "connectionChanges": [],
-  "workflowChanges": []
+  "workflowChanges": [],
+  "hasChanges": true
 }

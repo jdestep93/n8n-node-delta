@@ -36,7 +36,7 @@ const rawNodeSchema = z.looseObject({
 });
 
 const rawWorkflowSchema = z.looseObject({
-  id: z.string(),
+  id: z.string().optional(),
   name: z.string(),
   nodes: z.array(rawNodeSchema),
   connections: unknownRecordSchema,
@@ -143,7 +143,10 @@ export class EditorRestN8nAdapter implements N8nAdapter {
     }
 
     const parsed = rawWorkflowSchema.safeParse(workflowCandidate(body));
-    if (!parsed.success || parsed.data.id !== workflowId) {
+    if (
+      !parsed.success ||
+      (parsed.data.id !== undefined && parsed.data.id !== workflowId)
+    ) {
       throw new UnsupportedN8nResponseError({
         diagnostics: {
           status: response.status,

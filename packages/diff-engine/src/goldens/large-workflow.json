@@ -43,11 +43,13 @@
       "changes": [
         {
           "path": "parameters.expression",
+          "kind": "modified",
           "before": "={{ $json.values[299] }}",
           "after": "={{ $json.final }}"
         },
         {
           "path": "parameters.value",
+          "kind": "modified",
           "before": 299,
           "after": 300
         }
@@ -55,5 +57,6 @@
     }
   ],
   "connectionChanges": [],
-  "workflowChanges": []
+  "workflowChanges": [],
+  "hasChanges": true
 }

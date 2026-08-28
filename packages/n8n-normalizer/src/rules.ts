@@ -1,0 +1,35 @@
+export const NORMALIZATION_RULES = {
+  workflow: {
+    included: ['id', 'name', 'nodes', 'connections', 'settings', 'active'],
+    excluded: [
+      'createdAt',
+      'updatedAt',
+      'versionId',
+      'activeVersionId',
+      'staticData',
+      'tags',
+      'shared',
+      'sharedWithProjects',
+      'permissions',
+      'scopes',
+      'homeProject',
+    ],
+    preserveUnknownAsMetadata: true,
+  },
+  node: {
+    included: [
+      'id',
+      'name',
+      'type',
+      'typeVersion',
+      'position',
+      'parameters',
+      'disabled',
+      'notes',
+      'credentials',
+    ],
+    excluded: ['createdAt', 'updatedAt'],
+    preserveUnknownAsMetadata: true,
+  },
+  credentialReference: { included: ['id', 'name'] },
+} as const;

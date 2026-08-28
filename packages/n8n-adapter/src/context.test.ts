@@ -41,12 +41,28 @@ describe('n8n context detection', () => {
         origin: new URL(url).origin,
         basePath,
         restEndpoint: 'rest',
-        instanceId: `${new URL(url).origin}${basePath}`,
+        instanceId:
+          url === 'https://cloud.example/workflow/root-id'
+            ? '4af8222ba3c7bb96e0175e9ad16de36cc0e62bc2f33b8962674763f9377cad6d'
+            : '43fc98786e82f2a782de1765979feb4f7ecfaa143f3037299d655ebc24314a45',
         workflowId,
         routeType: 'workflow',
       });
     },
   );
+
+  it('uses a stable SHA-256 namespace without exposing the origin or base path', () => {
+    const context = detectN8nContext({
+      url: new URL('https://self.example/automation/workflow/abc'),
+      basePathScriptUrls: [
+        'https://self.example/automation/static/base-path.js',
+      ],
+    });
+
+    expect(context.instanceId).toMatch(/^[a-f0-9]{64}$/);
+    expect(context.instanceId).not.toContain('self.example');
+    expect(context.instanceId).not.toContain('automation');
+  });
 
   it('uses the URL workflow prefix when the base-path marker is unavailable', () => {
     expect(

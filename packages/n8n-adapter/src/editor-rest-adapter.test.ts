@@ -63,9 +63,28 @@ describe('Editor REST n8n adapter', () => {
     await expect(adapter.detect()).resolves.toEqual({
       origin: 'https://self.example',
       basePath: '/automation/',
-      instanceId: 'https://self.example/automation/',
+      instanceId:
+        '43fc98786e82f2a782de1765979feb4f7ecfaa143f3037299d655ebc24314a45',
     });
     expect(adapter.getCurrentWorkflowId()).toBe('workflow-id');
+  });
+
+  it('accepts a valid workflow response when the optional response id is absent', async () => {
+    const workflowWithoutId = {
+      name: workflow.name,
+      nodes: workflow.nodes,
+      connections: workflow.connections,
+      futureWorkflowProperty: workflow.futureWorkflowProperty,
+    };
+    const adapter = new EditorRestN8nAdapter(
+      environment(
+        vi.fn<Fetcher>(() => Promise.resolve(Response.json(workflowWithoutId))),
+      ),
+    );
+
+    await expect(adapter.getWorkflow('workflow-id')).resolves.toEqual(
+      workflowWithoutId,
+    );
   });
 
   it('rejects a page without n8n evidence', async () => {

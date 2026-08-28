@@ -41,6 +41,7 @@
       "changes": [
         {
           "path": "parameters.query",
+          "kind": "modified",
           "before": "SELECT id, name FROM customers WHERE id = $1;",
           "after": "SELECT id, name, email FROM customers WHERE id = $1;"
         }
@@ -48,5 +49,6 @@
     }
   ],
   "connectionChanges": [],
-  "workflowChanges": []
+  "workflowChanges": [],
+  "hasChanges": true
 }
