@@ -1,0 +1,45 @@
+{
+  "name": "flowdiff",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local-first semantic workflow diffs for n8n",
+  "license": "MIT",
+  "packageManager": "pnpm@10.28.1",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm clean && pnpm --filter './packages/**' build && pnpm --filter @flowdiff/extension build",
+    "check:deps": "node scripts/check-dependencies.mjs",
+    "clean": "rimraf dist artifacts packages/*/dist apps/*/dist",
+    "dev": "pnpm --filter @flowdiff/extension dev",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . && pnpm check:deps",
+    "package:chrome": "pnpm build && node scripts/package-chrome.mjs",
+    "test": "vitest run",
+    "test:e2e": "pnpm build && playwright test",
+    "typecheck": "tsc -b"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.0",
+    "@playwright/test": "^1.55.0",
+    "@types/chrome": "^0.1.1",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "archiver": "^7.0.1",
+    "eslint": "^10.0.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.5",
+    "globals": "^16.3.0",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.41.0",
+    "vite": "^7.1.3",
+    "vitest": "^3.2.4"
+  }
+}
