@@ -6,6 +6,7 @@ import {
   N8nNetworkError,
   N8nNotDetectedError,
   PermissionRequiredError,
+  StorageQuotaError,
   StorageUnavailableError,
   UnsupportedN8nResponseError,
   WorkflowNotFoundError,
@@ -23,6 +24,7 @@ describe('NodeDelta errors', () => {
       'PERMISSION_REQUIRED',
     ],
     [new StorageUnavailableError(), 'STORAGE_UNAVAILABLE'],
+    [new StorageQuotaError(), 'STORAGE_QUOTA'],
   ] as const)('exposes a stable code for %s', (error, expectedCode) => {
     expect(error).toBeInstanceOf(NodeDeltaError);
     expect(error).toBeInstanceOf(Error);

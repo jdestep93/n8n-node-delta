@@ -5,7 +5,8 @@ export type NodeDeltaErrorCode =
   | 'UNSUPPORTED_N8N_RESPONSE'
   | 'N8N_NETWORK'
   | 'PERMISSION_REQUIRED'
-  | 'STORAGE_UNAVAILABLE';
+  | 'STORAGE_UNAVAILABLE'
+  | 'STORAGE_QUOTA';
 
 export interface NodeDeltaErrorOptions extends ErrorOptions {
   diagnostics?: Readonly<Record<string, unknown>>;
@@ -110,6 +111,16 @@ export class StorageUnavailableError extends NodeDeltaError {
     super(
       'STORAGE_UNAVAILABLE',
       'Local snapshot storage is unavailable in this browser.',
+      options,
+    );
+  }
+}
+
+export class StorageQuotaError extends NodeDeltaError {
+  constructor(options?: NodeDeltaErrorOptions) {
+    super(
+      'STORAGE_QUOTA',
+      'Local snapshot storage is full. Delete older snapshots and try again.',
       options,
     );
   }
