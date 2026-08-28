@@ -5,13 +5,16 @@
 This document defines the V1 architecture. The workspace, domain contracts,
 editor REST adapter (T02), normalizer with canonicalization and hashing (T03),
 the browser-independent semantic diff engine (T05), the versioned IndexedDB
-snapshot repository and manual snapshot pipeline (T04), and the extension
-lifecycle with per-origin permission management and injection (T06) are
-implemented. They have Node-testable contracts, including fake-IndexedDB
-close/reopen, migration, isolation, deduplication, retention, safe
-storage-error coverage, and content-script lifecycle and permission tests.
-The complete review UI is implemented by later tickets. Those tickets must
-update any implementation-state notes here when their code lands.
+snapshot repository and manual snapshot pipeline (T04), the extension
+lifecycle with per-origin permission management and injection (T06), and the
+reusable semantic review components (T07) are implemented. They have
+Node-testable contracts, including fake-IndexedDB close/reopen, migration,
+isolation, deduplication, retention, safe storage-error coverage,
+content-script lifecycle and permission tests, and rendering tests for the
+review components. Wiring the review components into the extension app —
+snapshots, comparison state, and the read-only graph — is implemented by
+later tickets. Those tickets must update any implementation-state notes here
+when their code lands.
 
 NodeDelta has no backend. It runs at the n8n page/extension boundary, reads the
 current workflow from the same n8n origin with the user's existing session,

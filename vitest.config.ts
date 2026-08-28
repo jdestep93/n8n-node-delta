@@ -11,6 +11,9 @@ export default defineConfig({
       '@nodedelta/n8n-adapter': fileURLToPath(
         new URL('./packages/n8n-adapter/src/index.ts', import.meta.url),
       ),
+      '@nodedelta/diff-engine': fileURLToPath(
+        new URL('./packages/diff-engine/src/index.ts', import.meta.url),
+      ),
     },
   },
   test: {
@@ -18,6 +21,7 @@ export default defineConfig({
     setupFiles: ['./packages/snapshot-store/tests/setup-indexeddb.ts'],
     include: [
       'packages/**/*.test.ts',
+      'packages/**/*.test.tsx',
       'apps/**/*.test.ts',
       'scripts/**/*.test.mjs',
     ],
