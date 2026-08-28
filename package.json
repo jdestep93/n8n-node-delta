@@ -10,6 +10,7 @@
     "node": ">=22"
   },
   "scripts": {
+    "audit:licenses": "node scripts/audit-licenses.mjs",
     "build": "pnpm clean && pnpm --filter './packages/**' build && pnpm --filter @flowdiff/extension build",
     "check:deps": "node scripts/check-dependencies.mjs",
     "clean": "rimraf dist artifacts packages/*/dist apps/*/dist",
