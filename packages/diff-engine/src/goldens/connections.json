@@ -1,0 +1,71 @@
+{
+  "summary": {
+    "nodesAdded": 0,
+    "nodesRemoved": 0,
+    "nodesModified": 0,
+    "nodesRenamed": 0,
+    "nodesMoved": 0,
+    "connectionsAdded": 2,
+    "connectionsRemoved": 3,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [],
+  "connectionChanges": [
+    {
+      "kind": "added",
+      "connection": {
+        "sourceNode": "Route customer",
+        "sourceOutputType": "main",
+        "sourceOutputIndex": 1,
+        "targetNode": "Fetch customer",
+        "targetInputType": "main",
+        "targetInputIndex": 0
+      }
+    },
+    {
+      "kind": "added",
+      "connection": {
+        "sourceNode": "When clicking Test workflow",
+        "sourceOutputType": "main",
+        "sourceOutputIndex": 0,
+        "targetNode": "Route customer",
+        "targetInputType": "main",
+        "targetInputIndex": 0
+      }
+    },
+    {
+      "kind": "removed",
+      "connection": {
+        "sourceNode": "Fetch customer",
+        "sourceOutputType": "error",
+        "sourceOutputIndex": 0,
+        "targetNode": "Route customer",
+        "targetInputType": "error",
+        "targetInputIndex": 1
+      }
+    },
+    {
+      "kind": "removed",
+      "connection": {
+        "sourceNode": "Fetch customer",
+        "sourceOutputType": "main",
+        "sourceOutputIndex": 0,
+        "targetNode": "Route customer",
+        "targetInputType": "main",
+        "targetInputIndex": 0
+      }
+    },
+    {
+      "kind": "removed",
+      "connection": {
+        "sourceNode": "When clicking Test workflow",
+        "sourceOutputType": "main",
+        "sourceOutputIndex": 0,
+        "targetNode": "Fetch customer",
+        "targetInputType": "main",
+        "targetInputIndex": 0
+      }
+    }
+  ],
+  "workflowChanges": []
+}

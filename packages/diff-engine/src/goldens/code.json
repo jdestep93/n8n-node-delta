@@ -1,0 +1,52 @@
+{
+  "summary": {
+    "nodesAdded": 0,
+    "nodesRemoved": 0,
+    "nodesModified": 1,
+    "nodesRenamed": 0,
+    "nodesMoved": 0,
+    "connectionsAdded": 0,
+    "connectionsRemoved": 0,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [
+    {
+      "kind": "modified",
+      "before": {
+        "id": "code-1",
+        "name": "Transform records",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "jsCode": "return items;\n"
+        }
+      },
+      "after": {
+        "id": "code-1",
+        "name": "Transform records",
+        "type": "n8n-nodes-base.code",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "jsCode": "return items.filter((item) => item.json.active);\n"
+        }
+      },
+      "changes": [
+        {
+          "path": "parameters.jsCode",
+          "before": "return items;\n",
+          "after": "return items.filter((item) => item.json.active);\n"
+        }
+      ]
+    }
+  ],
+  "connectionChanges": [],
+  "workflowChanges": []
+}

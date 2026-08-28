@@ -6,6 +6,6 @@
     "rootDir": "src",
     "tsBuildInfoFile": "dist/.tsbuildinfo"
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../core" }]
+  "include": ["src/**/*.ts", "src/**/*.json"],
+  "references": [{ "path": "../core" }, { "path": "../test-fixtures" }]
 }

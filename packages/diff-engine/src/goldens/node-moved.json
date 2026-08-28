@@ -1,0 +1,59 @@
+{
+  "summary": {
+    "nodesAdded": 0,
+    "nodesRemoved": 0,
+    "nodesModified": 0,
+    "nodesRenamed": 0,
+    "nodesMoved": 1,
+    "connectionsAdded": 0,
+    "connectionsRemoved": 0,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [
+    {
+      "kind": "moved",
+      "before": {
+        "id": "request-1",
+        "name": "Fetch customer",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "method": "GET",
+          "url": "https://example.invalid/customers/1"
+        }
+      },
+      "after": {
+        "id": "request-1",
+        "name": "Fetch customer",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 1,
+        "position": {
+          "x": 360,
+          "y": 180
+        },
+        "parameters": {
+          "method": "GET",
+          "url": "https://example.invalid/customers/1"
+        }
+      },
+      "changes": [
+        {
+          "path": "position.x",
+          "before": 240,
+          "after": 360
+        },
+        {
+          "path": "position.y",
+          "before": 0,
+          "after": 180
+        }
+      ]
+    }
+  ],
+  "connectionChanges": [],
+  "workflowChanges": []
+}

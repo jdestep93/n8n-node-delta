@@ -1,0 +1,52 @@
+{
+  "summary": {
+    "nodesAdded": 0,
+    "nodesRemoved": 0,
+    "nodesModified": 1,
+    "nodesRenamed": 0,
+    "nodesMoved": 0,
+    "connectionsAdded": 0,
+    "connectionsRemoved": 0,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [
+    {
+      "kind": "modified",
+      "before": {
+        "id": "sql-1",
+        "name": "Find customer",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "query": "SELECT id, name FROM customers WHERE id = $1;"
+        }
+      },
+      "after": {
+        "id": "sql-1",
+        "name": "Find customer",
+        "type": "n8n-nodes-base.postgres",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "query": "SELECT id, name, email FROM customers WHERE id = $1;"
+        }
+      },
+      "changes": [
+        {
+          "path": "parameters.query",
+          "before": "SELECT id, name FROM customers WHERE id = $1;",
+          "after": "SELECT id, name, email FROM customers WHERE id = $1;"
+        }
+      ]
+    }
+  ],
+  "connectionChanges": [],
+  "workflowChanges": []
+}

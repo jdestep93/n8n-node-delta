@@ -1,0 +1,96 @@
+{
+  "summary": {
+    "nodesAdded": 0,
+    "nodesRemoved": 0,
+    "nodesModified": 1,
+    "nodesRenamed": 0,
+    "nodesMoved": 0,
+    "connectionsAdded": 0,
+    "connectionsRemoved": 0,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [
+    {
+      "kind": "modified",
+      "before": {
+        "id": "request-1",
+        "name": "Fetch customer",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "method": "GET",
+          "enabled": false,
+          "retries": 0,
+          "label": "",
+          "expression": "={{ $json.customerId }}",
+          "values": [
+            "first",
+            {
+              "z": 3,
+              "a": 1
+            }
+          ]
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "credential-1",
+            "name": "Production API"
+          }
+        }
+      },
+      "after": {
+        "id": "request-1",
+        "name": "Fetch customer",
+        "type": "n8n-nodes-base.httpRequest",
+        "typeVersion": 1,
+        "position": {
+          "x": 240,
+          "y": 0
+        },
+        "parameters": {
+          "method": "POST",
+          "enabled": false,
+          "retries": 0,
+          "label": "",
+          "expression": "={{ $json.customerId }}",
+          "values": [
+            "first",
+            {
+              "a": 1,
+              "z": 3
+            }
+          ]
+        },
+        "credentials": {
+          "httpHeaderAuth": {
+            "id": "credential-2",
+            "name": "Staging API"
+          }
+        }
+      },
+      "changes": [
+        {
+          "path": "parameters.method",
+          "before": "GET",
+          "after": "POST"
+        },
+        {
+          "path": "credentials.httpHeaderAuth.id",
+          "before": "credential-1",
+          "after": "credential-2"
+        },
+        {
+          "path": "credentials.httpHeaderAuth.name",
+          "before": "Production API",
+          "after": "Staging API"
+        }
+      ]
+    }
+  ],
+  "connectionChanges": [],
+  "workflowChanges": []
+}

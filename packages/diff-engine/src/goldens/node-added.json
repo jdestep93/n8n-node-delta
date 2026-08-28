@@ -1,0 +1,53 @@
+{
+  "summary": {
+    "nodesAdded": 1,
+    "nodesRemoved": 0,
+    "nodesModified": 0,
+    "nodesRenamed": 0,
+    "nodesMoved": 0,
+    "connectionsAdded": 1,
+    "connectionsRemoved": 0,
+    "workflowChanges": 0
+  },
+  "nodeChanges": [
+    {
+      "kind": "added",
+      "after": {
+        "id": "set-1",
+        "name": "Prepare data",
+        "type": "n8n-nodes-base.set",
+        "typeVersion": 1,
+        "position": {
+          "x": 480,
+          "y": 0
+        },
+        "parameters": {
+          "assignments": {
+            "assignments": [
+              {
+                "id": "field-1",
+                "name": "ready",
+                "value": true
+              }
+            ]
+          }
+        }
+      },
+      "changes": []
+    }
+  ],
+  "connectionChanges": [
+    {
+      "kind": "added",
+      "connection": {
+        "sourceNode": "Fetch customer",
+        "sourceOutputType": "main",
+        "sourceOutputIndex": 0,
+        "targetNode": "Prepare data",
+        "targetInputType": "main",
+        "targetInputIndex": 0
+      }
+    }
+  ],
+  "workflowChanges": []
+}
